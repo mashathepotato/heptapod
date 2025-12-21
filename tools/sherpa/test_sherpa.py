@@ -2,14 +2,14 @@ import os, sys
 from pathlib import Path
 import json
 import argparse
+import shutil
 
 SCRIPT_PATH = Path(__file__).resolve()
-SHERPA_DIR  = SCRIPT_PATH.parent                 # .../conductor/sherpa
-REPO_ROOT   = SHERPA_DIR.parent                  # .../conductor
-DEP_ROOT    = REPO_ROOT / "external" / "dep"     # .../conductor/external/dep
+SHERPA_DIR  = SCRIPT_PATH.parent                 # .../heptapod/tools/sherpa
+TOOLS_DIR   = SHERPA_DIR.parent                  # .../heptapod/tools
+REPO_ROOT   = TOOLS_DIR.parent                   # .../heptapod
 
 # Add PATHs so imports work from anywhere
-sys.path.insert(0, str(DEP_ROOT))
 sys.path.insert(0, str(SHERPA_DIR))
 sys.path.insert(0, str(REPO_ROOT))
 
@@ -20,8 +20,16 @@ from tools.analysis.conversions import EventJSONLToNumpyTool
 base_directory = str(SHERPA_DIR / "sherpa_tools_test_files")
 
 # Parse command-line arguments
-parser = argparse.ArgumentParser()
+parser = argparse.ArgumentParser(
+    description="Run Sherpa tools test suite",
+    formatter_class=argparse.RawDescriptionHelpFormatter
+)
 parser.add_argument("-v", "--verbose", action="store_true", help="Enable verbose output")
+parser.add_argument(
+    "--keep-files",
+    action="store_true",
+    help="Keep test-generated files after tests complete (useful for debugging)"
+)
 args = parser.parse_args()
 
 
@@ -403,6 +411,38 @@ def test_jsonl_to_numpy_conversion(verbose=False):
         return None
 
 
+def cleanup_test_files():
+    """Remove all test-generated files and directories."""
+    print("\n>> Cleaning up test files...\n")
+
+    # Directories to clean up
+    cleanup_dirs = [
+        Path(base_directory) / "data",
+        Path(base_directory) / "data_seed_test_1",
+        Path(base_directory) / "data_seed_test_2",
+        Path(base_directory) / "data_seed_test_3",
+        Path(base_directory) / "data_finals_test",
+        Path(base_directory) / "data_all_test",
+    ]
+
+    cleaned = 0
+
+    # Remove directories
+    for dir_path in cleanup_dirs:
+        if dir_path.exists():
+            try:
+                shutil.rmtree(dir_path)
+                print(f"[✓] Removed directory: {dir_path.name}")
+                cleaned += 1
+            except Exception as e:
+                print(f"[⚠] Failed to remove {dir_path.name}: {e}")
+
+    if cleaned == 0:
+        print("[i] No test files to clean up")
+    else:
+        print(f"\n[✓] Cleaned up {cleaned} item(s)\n")
+
+
 if __name__ == "__main__":
     import sys
 
@@ -446,6 +486,10 @@ if __name__ == "__main__":
         except (AssertionError, Exception) as e:
             print(f"\n[✗] test_finals_only_filtering failed: {e}\n")
             all_passed = False
+
+    # Cleanup test files unless --keep-files flag is set
+    if not args.keep_files:
+        cleanup_test_files()
 
     print("=" * 60)
     if all_passed:
