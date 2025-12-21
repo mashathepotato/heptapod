@@ -163,8 +163,6 @@ Test Ollama integration:
 python test_runner.py --only llm
 ```
 
-For more details on Ollama configuration and testing, see [llm/README.md](llm/README.md).
-
 **4. Verify Installation**
 
 ```bash
@@ -185,7 +183,7 @@ This checks:
 
 **Required for model generation tools only. Skip if using pre-generated UFO models.**
 
-1. **Mathematica** (version 13.3 or earlier)
+1. **Mathematica** (currently FeynRules supports versions 13.3 or earlier)
    - Download from [Wolfram Research](https://www.wolfram.com/mathematica/)
    - Requires valid license
    - WolframScript included with Mathematica installation
@@ -230,6 +228,8 @@ python -c "import pythia8; print(pythia8.__version__)"
 **Optional:** If using external physics tools, edit `config.py` to point to your installations:
 
 ```python
+                  ...
+
 # FeynRules (for UFO model generation)
 feynrules_path = "/path/to/FeynRules_v2.3.49"
 wolframscript_path = "/usr/local/bin/wolframscript"
@@ -253,14 +253,15 @@ python test_runner.py --help
 ```
 
 ### Common Test Commands
-
+For a comprehensive test of all supported **HEPTAPOD** functionalities run:
 ```bash
 # Run all tests
 python test_runner.py
+```
 
-# Run with verbose output
-python test_runner.py --verbose
+otherwise, subsets of features can be tested with the relevant `--only` flag:
 
+```bash
 # Skip slow integration tests (MG5, Pythia generation)
 python test_runner.py --skip-slow
 
@@ -286,7 +287,7 @@ The fastest way to get started is to run the demo with the web UI. This lets you
 
 **Configure the demo** by editing `examples/hep_bsm_demo.py`:
 
-1. **Select your LLM** (lines 200-224):
+1. **Select your LLM** (lines 117-147):
    ```python
    # ===== Cloud LLM Providers (requires API key in .env) =====
    # Option 1: OpenAI GPT (default)
@@ -313,6 +314,8 @@ The fastest way to get started is to run the demo with the web UI. This lets you
    - **`explorer`** - Interactive exploration and analysis (recommended for first run)
    - **`plan`** - Agent creates its own execution plan
    - **`todo`** - Uses predefined task list from `todos.md`
+
+   Each mode has a pre-defined default system prompt that can be found/modified in `prompts/`.
 
 3. **Set configuration variables**:
    ```python
@@ -346,9 +349,8 @@ The sandbox contains:
 
 **2. Check available tools**
 
-Ask the agent about its capabilities:
 ```
-"What tools do you have available for HEP workflows?"
+What tools are available for HEP workflows?
 ```
 
 The agent has access to:
@@ -358,6 +360,8 @@ The agent has access to:
 - **Analysis**: Kinematics tools, reconstruction, cuts, filtering
 - **Data conversion**: LHE → JSONL → NumPy
 
+along with default utility tools provided by Orchestral such as `ReadFile`, `WriteFile`, `RunCommand`, `RunPython`, `WebSearch`, etc.
+
 **3. Start with a simple task**
 
 Begin with UFO model generation:
@@ -366,6 +370,25 @@ Begin with UFO model generation:
 ```
 
 For detailed tool documentation and API reference, see [tools/README.md](tools/README.md).
+
+---
+
+## Contributing tools
+
+HEPTAPOD is designed to be extended with custom tools. If you'd like to contribute a new tool for model generation, event simulation, analysis, or any other physics workflow:
+
+**See [CONTRIBUTING.md](CONTRIBUTING.md) for comprehensive guidelines on:**
+
+- Tool architecture and structure
+- Required components (RuntimeFields, StateFields, error handling)
+- Path safety and sandboxing requirements
+- Testing and integration
+- Best practices and examples
+
+### Other Contributions
+
+For bug reports, feature requests, or technical discussions:
+- **GitHub Issues**: [https://github.com/tonymenzo/heptapod/issues](https://github.com/tonymenzo/heptapod/issues)
 
 ---
 
