@@ -310,7 +310,7 @@ def main():
     )
     parser.add_argument(
         "--only",
-        choices=["prereqs", "conversions", "kinematics", "reconstruction", "delta_r_filter", "feynrules", "mg5", "pythia", "llm"],
+        choices=["prereqs", "conversions", "kinematics", "reconstruction", "delta_r_filter", "feynrules", "mg5", "pythia", "sherpa", "llm"],
         help="Run only tests for specified component (prereqs = prerequisites check only)"
     )
     parser.add_argument(
@@ -372,6 +372,10 @@ def main():
             "script": REPO_ROOT / "tools" / "pythia" / "test_pythia.py",
             "description": "Pythia tools (card editing, event generation, jet clustering)"
         },
+        "sherpa": {
+            "script": REPO_ROOT / "tools" / "sherpa" / "test_sherpa.py",
+            "description": "Sherpa tools (card editing, event generation)"
+        },
     }
 
     # Track results
@@ -382,9 +386,8 @@ def main():
         # Skip if --only specified and this isn't it
         if args.only and args.only != component:
             continue
-
-        # Skip slow tests if requested
-        if args.skip_slow and component in ["feynrules", "mg5", "pythia"]:
+        # Skip slow tests if requested (utils is fast, so don't skip it)
+        if args.skip_slow and component in ["feynrules", "mg5", "pythia", "sherpa"]:
             print(f"⊘ Skipping {component} tests (--skip-slow)\n")
             continue
 

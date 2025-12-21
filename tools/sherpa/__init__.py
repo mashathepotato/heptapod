@@ -4,12 +4,10 @@
 # HEPTAPOD is licensed under the GNU GPL v3 or later, see LICENSE for details.
 # Please respect the MCnet Guidelines, see GUIDELINES for details.
 """
-"""HEP event generator and analysis tools."""
-
-# Re-export tool modules for convenient imports
-from . import feynrules
-from . import mg5
-from . import pythia
-from . import sherpa
-# from . import autoeft  # Not yet implemented
-from . import analysis
+"""Sherpa tools for event generation."""
+from .sherpa import (
+    SherpaFromRunCardTool,
+    _edit_sherpa_card,
+    _require_sherpa,
+    _event_to_dict,
+)

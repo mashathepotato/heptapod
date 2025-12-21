@@ -23,6 +23,7 @@ scipy>=1.16.3
 # Physics-Specific Packages
 # ==========================
 pythia8mc>=8.316.0       # Pythia8 Python bindings (requires Python 3.12 or 3.13, NOT 3.14+)
+sherpa-mc>=3.0.3b1       # Sherpa event generator (requires Python 3.12 or higher)
 pylhe>=1.0.2             # LHE file parsing
 particle>=0.26.0         # Particle data and PDG IDs
 hepunits>=2.4.3          # HEP unit conversions

@@ -9,7 +9,7 @@
 
 **HEPTAPOD** (High-Energy Physics Toolkit for Agentic Planning, Orchestration, and Deployment) is a Python framework for **orchestrating end-to-end HEP simulation and analysis workflows** using large language model (LLM) agents.
 
-Built on the [Orchestral AI](https://orchestral-ai.com) engine, HEPTAPOD treats established HEP tools (**FeynRules, MadGraph, and Pythia**) as **schema-validated, auditable operations** that can be coordinated by an LLM under explicit human supervision. Rather than replacing existing workflows, HEPTAPOD provides a structured orchestration layer that automates bookkeeping, parameter propagation, and multi-stage execution while preserving transparency and reproducibility.
+Built on the [Orchestral AI](https://orchestral-ai.com) engine, HEPTAPOD treats established HEP tools (**FeynRules, MadGraph, Pythia and Sherpa**) as **schema-validated, auditable operations** that can be coordinated by an LLM under explicit human supervision. Rather than replacing existing workflows, HEPTAPOD provides a structured orchestration layer that automates bookkeeping, parameter propagation, and multi-stage execution while preserving transparency and reproducibility.
 
 In practice, HEPTAPOD currently enables researchers to:
 
@@ -42,6 +42,7 @@ heptapod/
 │   ├── feynrules/               # FeynRules → UFO model generation
 │   ├── mg5/                     # MadGraph parton-level event generation
 │   ├── pythia/                  # Pythia hadronization and showering
+│   ├── sherpa/                  # Sherpa event generation and ufo conversion
 │   └── analysis/                # Data conversion and kinematics tools
 ├── llm/                         # LLM utilities and Ollama integration
 │   ├── utils.py                 # Helper functions (get_ollama, etc.)
@@ -223,6 +224,17 @@ The `pythia8mc` Python package (installed via pip above) includes Pythia8 binari
 python -c "import pythia8; print(pythia8.__version__)"
 ```
 
+#### Sherpa3
+
+**Required for event generation.**
+
+The `sherpa-mc` Python package (installed via pip above) includes Sherpa3 binaries. No separate installation needed.
+
+**Verify installation:**
+```bash
+python -c "import Sherpa"
+```
+
 ### Configuration
 
 **Optional:** If using external physics tools, edit `config.py` to point to your installations:
@@ -262,7 +274,7 @@ python test_runner.py
 otherwise, subsets of features can be tested with the relevant `--only` flag:
 
 ```bash
-# Skip slow integration tests (MG5, Pythia generation)
+# Skip slow integration tests (MG5, Pythia, Sherpa generation)
 python test_runner.py --skip-slow
 
 # Run only specific components
@@ -275,6 +287,7 @@ python test_runner.py --only delta_r_filter
 python test_runner.py --only feynrules
 python test_runner.py --only mg5
 python test_runner.py --only pythia
+python test_runner.py --only sherpa
 ```
 
 ---
@@ -346,6 +359,7 @@ The sandbox contains:
 - `feynrules/models/` - FeynRules model files (e.g., `S1_LQ_RR.fr` for leptoquark model)
 - `mg5/` - MadGraph configuration templates
 - `pythia/` - Pythia run card templates
+- `sherpa/` - Sherpa run card templates
 
 **2. Check available tools**
 
@@ -357,6 +371,7 @@ The agent has access to:
 - **Model generation**: FeynRulesToUFOTool (FeynRules → UFO)
 - **Parton-level events**: MadGraphFromRunCardTool
 - **Hadronization**: PythiaFromRunCardTool, JetClusterSlowJetTool
+- **Parton-level or particle-level events**: SherpaFromRunCardTool
 - **Analysis**: Kinematics tools, reconstruction, cuts, filtering
 - **Data conversion**: LHE → JSONL → NumPy
 
