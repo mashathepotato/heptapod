@@ -89,7 +89,6 @@ tools = [
     FeynRulesToUFOTool(base_directory=base_directory, feynrules_path=feynrules_path, wolframscript_path=wolframscript_path),
     MadGraphFromRunCardTool(base_directory=base_directory, mg5_path=mg5_path),
     PythiaFromRunCardTool(base_directory=base_directory),
-    SherpaFromRunCardTool(base_directory=base_directory),
     JetClusterSlowJetTool(base_directory=base_directory),
     SherpaFromRunCardTool(base_directory=base_directory),
     # Data conversion tools.
