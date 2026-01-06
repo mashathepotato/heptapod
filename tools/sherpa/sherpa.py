@@ -263,7 +263,11 @@ class SherpaFromRunCardTool(BaseTool):
             )
 
         # Initialize Sherpa.
+        # Save current working directory and switch to output directory
+        # so that Sherpa creates its Process/, Settings_Report/, etc. there
+        original_cwd = os.getcwd()
         try:
+            os.chdir(outdir)
             local_argv = ['Sherpa']
             local_argv.append("-O0")
             local_argv.append(f"-f{str(cmnd_dst)}")
@@ -278,6 +282,7 @@ class SherpaFromRunCardTool(BaseTool):
                 sherpa.SummarizeRun()
                 del sherpa
                 del sherpa3
+                os.chdir(original_cwd)
                 return self.format_error(
                     error="Sherpa Init Failed",
                     reason="Initialization returned false",
@@ -285,6 +290,7 @@ class SherpaFromRunCardTool(BaseTool):
                     suggestion="Validate beams, processes, and energy"
                 )
         except Exception as e:
+            os.chdir(original_cwd)
             exit(1)
             return self.format_error(
                 error="Sherpa Error",
@@ -325,6 +331,7 @@ class SherpaFromRunCardTool(BaseTool):
             sherpa.SummarizeRun()
             del sherpa
             del sherpa3
+            os.chdir(original_cwd)
             return self.format_error(
                 error="Write Error",
                 reason=str(e),
@@ -334,6 +341,8 @@ class SherpaFromRunCardTool(BaseTool):
         sherpa.SummarizeRun()
         del sherpa
         del sherpa3
+        # Restore original working directory
+        os.chdir(original_cwd)
 
         # Extract cross-section information.
         xsec = {}

@@ -448,7 +448,9 @@ def cleanup_test_files():
     """Remove all test-generated files and directories."""
     print("\n>> Cleaning up test files...\n")
 
-    # Directories to clean up
+    # Test output directories to clean up (under base_directory)
+    # Each directory contains events.jsonl, manifest.json, Sherpa.yaml,
+    # and Sherpa-generated files (Process/, Settings_Report/, *.zip)
     cleanup_dirs = [
         Path(base_directory) / "data",
         Path(base_directory) / "data_seed_test_1",
@@ -458,17 +460,51 @@ def cleanup_test_files():
         Path(base_directory) / "data_all_test",
     ]
 
+    # Sherpa-generated directories in repo root (pollution from Sherpa runs)
+    repo_cleanup_dirs = [
+        REPO_ROOT / "Process",
+        REPO_ROOT / "Settings_Report",
+    ]
+
     cleaned = 0
 
-    # Remove directories
+    # Remove test directories
     for dir_path in cleanup_dirs:
         if dir_path.exists():
             try:
                 shutil.rmtree(dir_path)
-                print(f"[✓] Removed directory: {dir_path.name}")
+                print(f"[✓] Removed directory: {dir_path.relative_to(base_directory)}")
                 cleaned += 1
             except Exception as e:
                 print(f"[⚠] Failed to remove {dir_path.name}: {e}")
+
+    # Remove Sherpa-polluted directories from repo root
+    for dir_path in repo_cleanup_dirs:
+        if dir_path.exists():
+            try:
+                shutil.rmtree(dir_path)
+                print(f"[✓] Removed Sherpa-generated directory from repo root: {dir_path.name}")
+                cleaned += 1
+            except Exception as e:
+                print(f"[⚠] Failed to remove {dir_path.name}: {e}")
+
+    # Remove Sherpa-generated files from repo root
+    repo_cleanup_files = [
+        REPO_ROOT / "Comix.zip",
+        REPO_ROOT / "Sherpa.zip",
+        REPO_ROOT / "Results.zip",
+        REPO_ROOT / "Results.zip~",
+        REPO_ROOT / "References.tex",
+    ]
+
+    for file_path in repo_cleanup_files:
+        if file_path.exists():
+            try:
+                file_path.unlink()
+                print(f"[✓] Removed Sherpa-generated file from repo root: {file_path.name}")
+                cleaned += 1
+            except Exception as e:
+                print(f"[⚠] Failed to remove {file_path.name}: {e}")
 
     if cleaned == 0:
         print("[i] No test files to clean up")
