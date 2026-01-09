@@ -352,7 +352,7 @@ Once the web UI launches, you can interact with the agent in natural language. H
 
 Start by asking the agent to show you what's available:
 ```
-"List the files in the current directory and summarize what's here."
+List the files in the current directory and summarize what's here.
 ```
 
 The sandbox contains:
@@ -381,7 +381,7 @@ along with default utility tools provided by Orchestral such as `ReadFile`, `Wri
 
 Begin with UFO model generation:
 ```
-"Generate the UFO model files from the S1 leptoquark FeynRules model in feynrules/models/S1_LQ_RR.fr"
+Generate the UFO model files from the S1 leptoquark FeynRules model in feynrules/models/S1_LQ_RR.fr
 ```
 
 For detailed tool documentation and API reference, see [tools/README.md](tools/README.md).
@@ -421,6 +421,18 @@ If you use HEPTAPOD in your research, please cite:
     reportNumber = "FERMILAB-PUB-25-0923-CSAID-ETD-T",
     month = "12",
     year = "2025"
+}
+```
+
+```bibtex
+@misc{roman2026orchestralaiframeworkagent,
+      title={Orchestral AI: A Framework for Agent Orchestration}, 
+      author={Alexander Roman and Jacob Roman},
+      year={2026},
+      eprint={2601.02577},
+      archivePrefix={arXiv},
+      primaryClass={cs.AI},
+      url={https://arxiv.org/abs/2601.02577}, 
 }
 ```
 
