@@ -10,8 +10,12 @@ import sys
 from pathlib import Path
 
 # Add repository root to path for local imports (prompts, tools, etc.)
-REPO_ROOT = Path(__file__).resolve().parent.parent
+REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(REPO_ROOT))
+
+# Add shared utilities directory to path
+SHARED_DIR = Path(__file__).resolve().parent.parent / 'shared'
+sys.path.insert(0, str(SHARED_DIR))
 
 # =========================================================== #
 # ======================== IMPORTS ========================== #
