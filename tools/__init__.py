@@ -13,3 +13,6 @@ from . import pythia
 from . import sherpa
 # from . import autoeft  # Not yet implemented
 from . import analysis
+from . import pdg
+from . import inspire
+from . import units

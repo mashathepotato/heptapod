@@ -27,6 +27,7 @@ pythia8mc>=8.316.0       # Pythia8 Python bindings (requires Python 3.12 or 3.13
 sherpa-mc>=3.0.3b1       # Sherpa event generator (requires Python 3.12 or higher)
 pylhe>=1.0.2             # LHE file parsing
 particle>=0.26.0         # Particle data and PDG IDs
+pdg>=0.5.0               # PDG database API (particle properties, branching fractions)
 hepunits>=2.4.3          # HEP unit conversions
 awkward>=2.8.11          # Awkward arrays for HEP data
 awkward-cpp>=51          # C++ backend for awkward
@@ -52,6 +53,7 @@ graphviz>=0.21           # Graph visualization
 python-dotenv>=1.2.1     # Environment variable management
 pyyaml>=6.0.3            # YAML parsing
 invoke>=2.2.1            # Task execution
+requests>=2.32.0         # HTTP requests (INSPIRE API)
 sympy>=1.14.0            # UFO conversion
 
 # Development Tools (Optional)

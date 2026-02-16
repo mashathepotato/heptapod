@@ -9,6 +9,9 @@ This script runs unit tests for:
 - FeynRules tools (UFO generation)
 - MadGraph tools (event generation, LHE conversion, card editing)
 - Pythia tools (event generation, jet clustering, card editing)
+- PDG tools (particle properties, masses, widths, branching fractions)
+- INSPIRE tools (paper search, citations, author information)
+- Units tools (natural unit conversions, metric prefixes)
 
 Usage:
     python test_runner.py                # Run all tests
@@ -310,7 +313,7 @@ def main():
     )
     parser.add_argument(
         "--only",
-        choices=["prereqs", "conversions", "kinematics", "reconstruction", "delta_r_filter", "feynrules", "mg5", "pythia", "sherpa", "llm"],
+        choices=["prereqs", "conversions", "kinematics", "reconstruction", "delta_r_filter", "feynrules", "mg5", "pythia", "sherpa", "llm", "pdg", "inspire", "units"],
         help="Run only tests for specified component (prereqs = prerequisites check only)"
     )
     parser.add_argument(
@@ -375,6 +378,18 @@ def main():
         "sherpa": {
             "script": REPO_ROOT / "tools" / "sherpa" / "test_sherpa.py",
             "description": "Sherpa tools (card editing, event generation)"
+        },
+        "pdg": {
+            "script": REPO_ROOT / "tools" / "pdg" / "tests" / "test_pdg_tool.py",
+            "description": "PDG tools (particle properties, masses, widths, branching fractions)"
+        },
+        "inspire": {
+            "script": REPO_ROOT / "tools" / "inspire" / "tests" / "test_inspire_tools.py",
+            "description": "INSPIRE tools (paper search, citations, author information)"
+        },
+        "units": {
+            "script": REPO_ROOT / "tools" / "units" / "tests" / "test_units.py",
+            "description": "Unit conversion tools (natural units, metric prefix conversions)"
         },
     }
 
