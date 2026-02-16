@@ -39,6 +39,9 @@ pydantic>=2.12.5         # Type validation and schema enforcement
 # Terminal UI
 rich>=14.2.0             # Rich terminal output
 
+# MCP (Model Context Protocol)
+mcp>=1.0.0               # MCP server SDK (for exposing tools to Claude, Codex, etc.)
+
 # Web Server (for app.server)
 fastapi>=0.125.0         # Web framework
 uvicorn>=0.38.0          # ASGI server
