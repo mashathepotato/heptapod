@@ -31,6 +31,7 @@ The design and philosophy of HEPTAPOD are described in detail in the accompanyin
 - **Automatic metadata and state propagation** across multi-stage workflows
 - **Structured error handling and recovery** for long-running or branching executions
 - **LLM-compatible intermediate data formats** for inspection, validation, and debugging
+- **MCP server support** for exposing tools to Claude Code, Claude Desktop, OpenAI Codex, and other MCP clients
 
 ---
 
@@ -42,12 +43,16 @@ heptapod/
 │   ├── feynrules/               # FeynRules → UFO model generation
 │   ├── mg5/                     # MadGraph parton-level event generation
 │   ├── pythia/                  # Pythia hadronization and showering
-│   ├── sherpa/                  # Sherpa event generation and ufo conversion
-│   └── analysis/                # Data conversion and kinematics tools
+│   ├── sherpa/                  # Sherpa event generation and UFO conversion
+│   ├── analysis/                # Data conversion and kinematics tools
+│   ├── pdg/                     # PDG database queries (masses, widths, branching fractions)
+│   ├── inspire/                 # INSPIRE HEP literature search, citations, BibTeX
+│   └── units/                   # Natural units and metric prefix conversions
 ├── llm/                         # LLM utilities and Ollama integration
 │   ├── utils.py                 # Helper functions (get_ollama, etc.)
 │   └── test_ollama_*.py         # Ollama integration tests
 ├── examples/                    # Example workflows and demos
+│   ├── mcp/                     # MCP server scripts and documentation
 │   ├── hep_bsm_demo.py          # Main demo application
 │   └── todos/                   # Example task lists
 ├── prompts/                     # System prompts for agent orchestration
@@ -288,7 +293,33 @@ python test_runner.py --only feynrules
 python test_runner.py --only mg5
 python test_runner.py --only pythia
 python test_runner.py --only sherpa
+python test_runner.py --only pdg
+python test_runner.py --only inspire
+python test_runner.py --only units
 ```
+
+---
+
+## MCP Support
+
+HEPTAPOD tools can be exposed as an [MCP (Model Context Protocol)](https://modelcontextprotocol.io) server, making them available to Claude Code, Claude Desktop, OpenAI Codex, and any MCP-compatible client.
+
+```bash
+# Serve lightweight tools (PDG, INSPIRE, Units) over STDIO
+python examples/mcp/heptapod_server_stdio.py --groups pdg,inspire,units
+
+# Or over HTTP for remote access
+python examples/mcp/heptapod_server_http.py --port 8765
+```
+
+Register with Claude Code:
+
+```bash
+claude mcp add --scope user heptapod -- \
+  /path/to/envs/heptapod/bin/python "$(pwd)/examples/mcp/heptapod_server_stdio.py"
+```
+
+For full setup instructions, scope options, and Codex integration, see [examples/mcp/README.md](examples/mcp/README.md).
 
 ---
 
