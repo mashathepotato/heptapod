@@ -7,15 +7,17 @@
 
 ## Overview
 
-**HEPTAPOD** (High-Energy Physics Toolkit for Agentic Planning, Orchestration, and Deployment) is a Python framework for **orchestrating end-to-end HEP simulation and analysis workflows** using large language model (LLM) agents.
+**HEPTAPOD** (High-Energy Physics Toolkit for Agentic Planning, Orchestration, and Deployment) is a toolkit and orchestration framework designed to **integrate LLMs into general HEP workflows** spanning theoretical calculations, simulation, and data analysis.
 
-Built on the [Orchestral AI](https://orchestral-ai.com) engine, HEPTAPOD treats established HEP tools (**FeynRules, MadGraph, Pythia and Sherpa**) as **schema-validated, auditable operations** that can be coordinated by an LLM under explicit human supervision. Rather than replacing existing workflows, HEPTAPOD provides a structured orchestration layer that automates bookkeeping, parameter propagation, and multi-stage execution while preserving transparency and reproducibility.
+Built on the [Orchestral AI](https://orchestral-ai.com) engine, HEPTAPOD enables LLMs to interface with domain-specific tools — from particle data lookups and literature search to event generation and kinematic analysis — and to construct and manage diverse HEP pipelines while preserving **transparency, reproducibility, and human oversight**. Rather than replacing existing workflows, HEPTAPOD provides a structured and auditable layer between human researchers, LLMs, and computational infrastructure.
 
 In practice, HEPTAPOD currently enables researchers to:
 
 - Define workflows at the level of **physics intent**, not scripts
-- Execute **multi-stage BSM pipelines** (model → events → analysis) with consistent metadata
+- Query **particle properties**, **literature databases**, and **unit conversions** through tool interfaces
+- Execute **multi-stage pipelines** (model → events → analysis) with consistent metadata
 - Automatically handle **parameter scans**, intermediate artifacts, and failure recovery
+- Expose tools to AI research assistants via **MCP** (Model Context Protocol) for interactive use
 - Maintain **fully reproducible, auditable execution traces** via run cards and structured outputs
 
 The design and philosophy of HEPTAPOD are described in detail in the accompanying paper [https://arxiv.org/abs/2512.15867](https://arxiv.org/abs/2512.15867).
@@ -24,9 +26,10 @@ The design and philosophy of HEPTAPOD are described in detail in the accompanyin
 
 ## Key Features
 
-- **General-purpose orchestration for HEP workflows** across theory, simulation, and analysis
-- **Agent-driven planning and execution**, with explicit human oversight
-- **Schema-validated tool interfaces** that formalize interactions with HEP software
+- **General-purpose HEP toolkit** spanning theoretical calculations, simulation, and data analysis
+- **Domain-specific tool interfaces** for particle data (PDG), literature search (INSPIRE), unit conversions, event generation, and kinematic analysis
+- **Agent-driven planning and execution** with explicit human oversight
+- **Schema-validated operations** that formalize interactions with HEP software
 - **Run-card–based configuration** as a stable, auditable orchestration boundary
 - **Automatic metadata and state propagation** across multi-stage workflows
 - **Structured error handling and recovery** for long-running or branching executions
