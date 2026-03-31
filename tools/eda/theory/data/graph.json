@@ -1,0 +1,280 @@
+{
+  "schema_version": "skills-graph-1.0",
+  "description": "QFT theory knowledge base for agentic FeynCalc calculations",
+  "nodes": {
+    "procedures.decay_width_1to2": {
+      "title": "1→2 Decay Width Procedure",
+      "file": "procedures/decay_width_1to2.md",
+      "category": "procedure",
+      "links": [
+        "feynman_rules.vertices_scalar",
+        "feynman_rules.vertices_vector",
+        "spin_sums.fermion_spin_sum",
+        "spin_sums.vector_polarization_sum",
+        "phase_space.two_body",
+        "feyncalc_reference.spinors_and_traces"
+      ]
+    },
+    "procedures.cross_section_2to2": {
+      "title": "2→2 Cross Section Procedure",
+      "file": "procedures/cross_section_2to2.md",
+      "category": "procedure",
+      "links": [
+        "feynman_rules.propagators",
+        "feynman_rules.vertices_vector",
+        "spin_sums.fermion_spin_sum",
+        "phase_space.mandelstam",
+        "feyncalc_reference.spinors_and_traces"
+      ]
+    },
+    "procedures.interference": {
+      "title": "Interference Between Diagrams",
+      "file": "procedures/interference.md",
+      "category": "procedure",
+      "links": [
+        "procedures.decay_width_1to2",
+        "procedures.cross_section_2to2",
+        "feyncalc_reference.spinors_and_traces"
+      ]
+    },
+    "procedures.identical_particles": {
+      "title": "Identical Particles and Symmetry Factors",
+      "file": "procedures/identical_particles.md",
+      "category": "procedure",
+      "links": [
+        "procedures.decay_width_1to2",
+        "procedures.cross_section_2to2",
+        "phase_space.two_body"
+      ]
+    },
+    "feynman_rules.propagators": {
+      "title": "Propagators",
+      "file": "feynman_rules/propagators.md",
+      "category": "feynman_rules",
+      "links": [
+        "feynman_rules.vertices_scalar",
+        "feynman_rules.vertices_vector",
+        "feyncalc_reference.momentum_and_indices"
+      ]
+    },
+    "feynman_rules.vertices_scalar": {
+      "title": "Scalar and Pseudoscalar Vertices",
+      "file": "feynman_rules/vertices_scalar.md",
+      "category": "feynman_rules",
+      "links": [
+        "procedures.decay_width_1to2",
+        "spin_sums.fermion_spin_sum",
+        "feynman_rules.vertices_vector",
+        "feyncalc_reference.spinors_and_traces",
+        "worked_examples.h_to_bb"
+      ]
+    },
+    "feynman_rules.vertices_vector": {
+      "title": "Vector and Axial-Vector Vertices",
+      "file": "feynman_rules/vertices_vector.md",
+      "category": "feynman_rules",
+      "links": [
+        "procedures.decay_width_1to2",
+        "procedures.cross_section_2to2",
+        "spin_sums.fermion_spin_sum",
+        "spin_sums.vector_polarization_sum",
+        "feynman_rules.vertices_scalar",
+        "feyncalc_reference.spinors_and_traces",
+        "worked_examples.z_to_ee",
+        "worked_examples.ee_to_mumu"
+      ]
+    },
+    "feynman_rules.vertices_tensor": {
+      "title": "Tensor Bilinear Vertices",
+      "file": "feynman_rules/vertices_tensor.md",
+      "category": "feynman_rules",
+      "links": [
+        "feynman_rules.vertices_scalar",
+        "feynman_rules.vertices_vector",
+        "trace_identities.basic_traces",
+        "feyncalc_reference.spinors_and_traces"
+      ]
+    },
+    "feynman_rules.vertices_bosonic": {
+      "title": "Bosonic Vertices",
+      "file": "feynman_rules/vertices_bosonic.md",
+      "category": "feynman_rules",
+      "links": [
+        "feynman_rules.propagators",
+        "feyncalc_reference.momentum_and_indices"
+      ]
+    },
+    "spin_sums.fermion_spin_sum": {
+      "title": "Fermion Spin Sums",
+      "file": "spin_sums/fermion_spin_sum.md",
+      "category": "spin_sums",
+      "links": [
+        "trace_identities.basic_traces",
+        "trace_identities.gamma5_traces",
+        "spin_sums.massive_vs_massless",
+        "feyncalc_reference.spinors_and_traces"
+      ]
+    },
+    "spin_sums.vector_polarization_sum": {
+      "title": "Vector Boson Polarization Sums",
+      "file": "spin_sums/vector_polarization_sum.md",
+      "category": "spin_sums",
+      "links": [
+        "spin_sums.massive_vs_massless",
+        "feyncalc_reference.momentum_and_indices"
+      ]
+    },
+    "spin_sums.massive_vs_massless": {
+      "title": "Massive vs Massless Spin Sums",
+      "file": "spin_sums/massive_vs_massless.md",
+      "category": "spin_sums",
+      "links": [
+        "spin_sums.fermion_spin_sum",
+        "spin_sums.vector_polarization_sum"
+      ]
+    },
+    "trace_identities.basic_traces": {
+      "title": "Basic Dirac Trace Identities",
+      "file": "trace_identities/basic_traces.md",
+      "category": "trace_identities",
+      "links": [
+        "trace_identities.gamma5_traces",
+        "trace_identities.trace_of_odd",
+        "trace_identities.contraction_identities",
+        "feyncalc_reference.spinors_and_traces"
+      ]
+    },
+    "trace_identities.gamma5_traces": {
+      "title": "Traces with γ⁵",
+      "file": "trace_identities/gamma5_traces.md",
+      "category": "trace_identities",
+      "links": [
+        "trace_identities.basic_traces",
+        "feynman_rules.vertices_vector",
+        "feyncalc_reference.spinors_and_traces"
+      ]
+    },
+    "trace_identities.trace_of_odd": {
+      "title": "Trace of Odd Number of Gamma Matrices",
+      "file": "trace_identities/trace_of_odd.md",
+      "category": "trace_identities",
+      "links": [
+        "trace_identities.basic_traces"
+      ]
+    },
+    "trace_identities.contraction_identities": {
+      "title": "Contraction Identities",
+      "file": "trace_identities/contraction_identities.md",
+      "category": "trace_identities",
+      "links": [
+        "trace_identities.basic_traces",
+        "feyncalc_reference.momentum_and_indices"
+      ]
+    },
+    "phase_space.two_body": {
+      "title": "Two-Body Phase Space",
+      "file": "phase_space/two_body.md",
+      "category": "phase_space",
+      "links": [
+        "procedures.decay_width_1to2",
+        "phase_space.mandelstam"
+      ]
+    },
+    "phase_space.three_body": {
+      "title": "Three-Body Phase Space",
+      "file": "phase_space/three_body.md",
+      "category": "phase_space",
+      "links": [
+        "phase_space.two_body",
+        "phase_space.mandelstam"
+      ]
+    },
+    "phase_space.mandelstam": {
+      "title": "Mandelstam Variables",
+      "file": "phase_space/mandelstam.md",
+      "category": "phase_space",
+      "links": [
+        "procedures.cross_section_2to2",
+        "phase_space.two_body",
+        "feyncalc_reference.momentum_and_indices"
+      ]
+    },
+    "feyncalc_reference.quick_start": {
+      "title": "FeynCalc Quick Start",
+      "file": "feyncalc_reference/quick_start.md",
+      "category": "feyncalc_reference",
+      "links": [
+        "feyncalc_reference.spinors_and_traces",
+        "feyncalc_reference.momentum_and_indices",
+        "feyncalc_reference.output_patterns"
+      ]
+    },
+    "feyncalc_reference.spinors_and_traces": {
+      "title": "Spinors, Traces, and Simplification",
+      "file": "feyncalc_reference/spinors_and_traces.md",
+      "category": "feyncalc_reference",
+      "links": [
+        "feyncalc_reference.quick_start",
+        "feyncalc_reference.momentum_and_indices",
+        "spin_sums.fermion_spin_sum",
+        "trace_identities.basic_traces"
+      ]
+    },
+    "feyncalc_reference.momentum_and_indices": {
+      "title": "Momenta, Indices, and Contractions",
+      "file": "feyncalc_reference/momentum_and_indices.md",
+      "category": "feyncalc_reference",
+      "links": [
+        "feyncalc_reference.quick_start",
+        "feyncalc_reference.spinors_and_traces",
+        "trace_identities.contraction_identities"
+      ]
+    },
+    "feyncalc_reference.output_patterns": {
+      "title": "Output Formatting for Parsing",
+      "file": "feyncalc_reference/output_patterns.md",
+      "category": "feyncalc_reference",
+      "links": [
+        "feyncalc_reference.quick_start"
+      ]
+    },
+    "worked_examples.h_to_bb": {
+      "title": "Worked Example: H → bb̄",
+      "file": "worked_examples/h_to_bb.md",
+      "category": "worked_example",
+      "links": [
+        "procedures.decay_width_1to2",
+        "feynman_rules.vertices_scalar",
+        "spin_sums.fermion_spin_sum",
+        "phase_space.two_body",
+        "feyncalc_reference.spinors_and_traces"
+      ]
+    },
+    "worked_examples.z_to_ee": {
+      "title": "Worked Example: Z → e⁺e⁻",
+      "file": "worked_examples/z_to_ee.md",
+      "category": "worked_example",
+      "links": [
+        "procedures.decay_width_1to2",
+        "feynman_rules.vertices_vector",
+        "spin_sums.fermion_spin_sum",
+        "spin_sums.vector_polarization_sum",
+        "phase_space.two_body",
+        "feyncalc_reference.spinors_and_traces"
+      ]
+    },
+    "worked_examples.ee_to_mumu": {
+      "title": "Worked Example: e⁺e⁻ → μ⁺μ⁻",
+      "file": "worked_examples/ee_to_mumu.md",
+      "category": "worked_example",
+      "links": [
+        "procedures.cross_section_2to2",
+        "feynman_rules.vertices_vector",
+        "feynman_rules.propagators",
+        "spin_sums.fermion_spin_sum",
+        "phase_space.mandelstam",
+        "feyncalc_reference.spinors_and_traces"
+      ]
+    }
+  }
+}
