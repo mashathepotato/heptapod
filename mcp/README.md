@@ -18,10 +18,10 @@ The client manages the server lifecycle — it spawns the process on startup and
 
 ```bash
 # Serve all available tools
-python examples/mcp/heptapod_server_stdio.py
+python mcp/heptapod_server_stdio.py
 
 # Serve specific groups
-python examples/mcp/heptapod_server_stdio.py --groups pdg,units,inspire
+python mcp/heptapod_server_stdio.py --groups pdg,units,inspire
 ```
 
 ### HTTP Server
@@ -30,10 +30,10 @@ A persistent server that clients connect to over HTTP. Best for multi-client acc
 
 ```bash
 # Default: http://127.0.0.1:8765/mcp
-python examples/mcp/heptapod_server_http.py
+python mcp/heptapod_server_http.py
 
 # Custom host/port with specific groups
-python examples/mcp/heptapod_server_http.py --host 0.0.0.0 --port 9000 --groups pdg,inspire
+python mcp/heptapod_server_http.py --host 0.0.0.0 --port 9000 --groups pdg,inspire
 ```
 
 ## Tool Groups
@@ -74,19 +74,19 @@ Both `heptapod_server_stdio.py` and `heptapod_server_http.py` accept:
 Serve only the lightweight reference tools:
 
 ```bash
-python examples/mcp/heptapod_server_stdio.py --groups pdg,inspire,units
+python mcp/heptapod_server_stdio.py --groups pdg,inspire,units
 ```
 
 Serve analysis tools with a custom workspace:
 
 ```bash
-python examples/mcp/heptapod_server_stdio.py --groups analysis,pdg --workspace /tmp/heptapod_work
+python mcp/heptapod_server_stdio.py --groups analysis,pdg --workspace /tmp/heptapod_work
 ```
 
 Expose all tools over HTTP on a non-default port:
 
 ```bash
-python examples/mcp/heptapod_server_http.py --port 9000
+python mcp/heptapod_server_http.py --port 9000
 ```
 
 ## Connecting to Claude Code
@@ -115,14 +115,14 @@ This is the recommended setup for personal use. The tools will appear in Claude 
 
 ```bash
 claude mcp add --scope user heptapod -- \
-  /path/to/envs/heptapod/bin/python "$(pwd)/examples/mcp/heptapod_server_stdio.py"
+  /path/to/envs/heptapod/bin/python "$(pwd)/mcp/heptapod_server_stdio.py"
 ```
 
 To serve only specific groups:
 
 ```bash
 claude mcp add --scope user heptapod -- \
-  /path/to/envs/heptapod/bin/python "$(pwd)/examples/mcp/heptapod_server_stdio.py" \
+  /path/to/envs/heptapod/bin/python "$(pwd)/mcp/heptapod_server_stdio.py" \
   --groups pdg,inspire,units
 ```
 
@@ -132,7 +132,7 @@ Writes a `.mcp.json` file at the project root. Anyone who clones the repo gets t
 
 ```bash
 claude mcp add --scope project heptapod -- \
-  /path/to/envs/heptapod/bin/python "$(pwd)/examples/mcp/heptapod_server_stdio.py"
+  /path/to/envs/heptapod/bin/python "$(pwd)/mcp/heptapod_server_stdio.py"
 ```
 
 #### Local scope — single project, single user
@@ -141,7 +141,7 @@ The default if no `--scope` flag is given. Useful for one-off testing.
 
 ```bash
 claude mcp add heptapod -- \
-  /path/to/envs/heptapod/bin/python "$(pwd)/examples/mcp/heptapod_server_stdio.py"
+  /path/to/envs/heptapod/bin/python "$(pwd)/mcp/heptapod_server_stdio.py"
 ```
 
 #### HTTP transport
@@ -150,7 +150,7 @@ If you prefer to run the server independently (e.g., on a remote machine), use H
 
 ```bash
 # Terminal 1: start the server
-python examples/mcp/heptapod_server_http.py
+python mcp/heptapod_server_http.py
 
 # Terminal 2: register with Claude Code
 claude mcp add --scope user --transport http heptapod-http http://127.0.0.1:8765/mcp
@@ -172,7 +172,7 @@ Create a `.mcp.json` file at your project root. This file can be checked into ve
     "heptapod": {
       "command": "/path/to/envs/heptapod/bin/python",
       "args": [
-        "/absolute/path/to/heptapod/examples/mcp/heptapod_server_stdio.py",
+        "/absolute/path/to/heptapod/mcp/heptapod_server_stdio.py",
         "--groups", "pdg,inspire,units"
       ]
     }
@@ -238,11 +238,11 @@ cd /path/to/heptapod
 
 # STDIO server
 codex mcp add heptapod -- \
-  /path/to/envs/heptapod/bin/python "$(pwd)/examples/mcp/heptapod_server_stdio.py"
+  /path/to/envs/heptapod/bin/python "$(pwd)/mcp/heptapod_server_stdio.py"
 
 # STDIO with specific groups
 codex mcp add heptapod -- \
-  /path/to/envs/heptapod/bin/python "$(pwd)/examples/mcp/heptapod_server_stdio.py" \
+  /path/to/envs/heptapod/bin/python "$(pwd)/mcp/heptapod_server_stdio.py" \
   --groups pdg,inspire,units
 
 # HTTP server (start the server first, then register)
@@ -261,7 +261,7 @@ Edit `~/.codex/config.toml` (or `.codex/config.toml` at the project root for pro
 [mcp_servers.heptapod]
 command = "/path/to/envs/heptapod/bin/python"
 args = [
-  "/absolute/path/to/heptapod/examples/mcp/heptapod_server_stdio.py",
+  "/absolute/path/to/heptapod/mcp/heptapod_server_stdio.py",
   "--groups", "pdg,inspire,units"
 ]
 ```

@@ -273,23 +273,23 @@ HEPTAPOD tools can be exposed as an [MCP (Model Context Protocol)](https://model
 
 ```bash
 # Serve lightweight tools (PDG, INSPIRE, NDA, Units) over STDIO
-python examples/mcp/heptapod_server_stdio.py --groups pdg,inspire,nda,units
+python mcp/heptapod_server_stdio.py --groups pdg,inspire,nda,units
 
 # Serve EDA study tools (symbolic calculations + NDA cross-checks)
-python examples/mcp/heptapod_server_stdio.py --groups eda_study
+python mcp/heptapod_server_stdio.py --groups eda_study
 
 # Or over HTTP for remote access
-python examples/mcp/heptapod_server_http.py --port 8765
+python mcp/heptapod_server_http.py --port 8765
 ```
 
 Register with Claude Code:
 
 ```bash
 claude mcp add --scope user heptapod -- \
-  /path/to/envs/heptapod/bin/python "$(pwd)/examples/mcp/heptapod_server_stdio.py"
+  /path/to/envs/heptapod/bin/python "$(pwd)/mcp/heptapod_server_stdio.py"
 ```
 
-For full setup instructions, scope options, and Codex integration, see [examples/mcp/README.md](examples/mcp/README.md). For worked examples with transcripts, see [examples/eda/](examples/eda/) and [examples/nda/](examples/nda/).
+For full setup instructions, scope options, and Codex integration, see [mcp/README.md](mcp/README.md). For worked examples with transcripts, see [examples/eda/](examples/eda/) and [examples/nda/](examples/nda/).
 
 ---
 
