@@ -16,3 +16,19 @@ from . import analysis
 from . import pdg
 from . import inspire
 from . import units
+from . import logging
+
+# New tool modules — wrapped in try/except for graceful degradation
+# when optional dependencies (e.g., feyngraph, wolframscript) are missing
+try:
+    from . import nda
+except ImportError:
+    pass
+try:
+    from . import feyngraph
+except ImportError:
+    pass
+try:
+    from . import eda
+except ImportError:
+    pass

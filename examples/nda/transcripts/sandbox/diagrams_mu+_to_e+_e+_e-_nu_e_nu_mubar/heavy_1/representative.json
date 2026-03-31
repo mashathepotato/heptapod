@@ -1,0 +1,126 @@
+{
+  "rank": 1,
+  "diagram": {
+    "topology": "tree_nbody_nprop",
+    "initial": [
+      {
+        "label": "mu+",
+        "spin": 0.5,
+        "mass": 0.1056583745,
+        "charge": 1.0,
+        "lepton_e": 0.0,
+        "lepton_mu": -1.0,
+        "lepton_tau": 0.0,
+        "baryon_number": 0.0
+      }
+    ],
+    "final": [
+      {
+        "label": "e+",
+        "spin": 0.5,
+        "mass": 0.0005109989,
+        "charge": 1.0,
+        "lepton_e": -1.0,
+        "lepton_mu": 0.0,
+        "lepton_tau": 0.0,
+        "baryon_number": 0.0
+      },
+      {
+        "label": "e+",
+        "spin": 0.5,
+        "mass": 0.0005109989,
+        "charge": 1.0,
+        "lepton_e": -1.0,
+        "lepton_mu": 0.0,
+        "lepton_tau": 0.0,
+        "baryon_number": 0.0
+      },
+      {
+        "label": "e-",
+        "spin": 0.5,
+        "mass": 0.0005109989,
+        "charge": -1.0,
+        "lepton_e": 1.0,
+        "lepton_mu": 0.0,
+        "lepton_tau": 0.0,
+        "baryon_number": 0.0
+      },
+      {
+        "label": "nu_e",
+        "spin": 0.5,
+        "mass": 0.0,
+        "charge": 0.0,
+        "lepton_e": 1.0,
+        "lepton_mu": 0.0,
+        "lepton_tau": 0.0,
+        "baryon_number": 0.0
+      },
+      {
+        "label": "nu_mu_bar",
+        "spin": 0.5,
+        "mass": 0.0,
+        "charge": 0.0,
+        "lepton_e": 0.0,
+        "lepton_mu": -1.0,
+        "lepton_tau": 0.0,
+        "baryon_number": 0.0
+      }
+    ],
+    "vertices": [
+      {
+        "type": "left-handed-3pt",
+        "coupling": "g_w"
+      },
+      {
+        "type": "left-handed-3pt",
+        "coupling": "g_w"
+      },
+      {
+        "type": "vector-3pt",
+        "coupling": "e"
+      },
+      {
+        "type": "vector-3pt",
+        "coupling": "e"
+      }
+    ],
+    "couplings": {
+      "g_w": 0.653,
+      "e": 0.302822
+    },
+    "propagators": [
+      {
+        "label": "W+",
+        "mass": 80.379,
+        "regime": "auto"
+      },
+      {
+        "label": "e+",
+        "mass": 0.0005109989,
+        "regime": "auto"
+      },
+      {
+        "label": "gamma",
+        "mass": 0.0,
+        "regime": "auto"
+      }
+    ]
+  },
+  "width_gev": null,
+  "width_latex": "\\Gamma \\sim e^4 g_w^4 m_{mu+}",
+  "ranking_info": {
+    "loop_order": 0,
+    "coupling_power": 4,
+    "coupling_names": [
+      "g_w",
+      "e"
+    ],
+    "suppression_factors": [
+      "Heavy propagator: m = 80.4 GeV"
+    ],
+    "explanation": "Tree-level process. 1 heavy propagator(s).",
+    "score": 0.0015289821625634908,
+    "n_heavy_propagators": 1
+  },
+  "process_string": "F(0.1056583745) -> [V(80.379)] [V(0.0005109989)] [V(0.0)] -> F(0.0005109989) F(0.0005109989) F(0.0005109989) F(0.0) F(0.0)"
+}

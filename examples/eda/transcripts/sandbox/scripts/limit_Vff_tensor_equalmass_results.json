@@ -1,0 +1,10 @@
+{
+  "symbolic": {
+    "simplified": "(g*Sqrt[-4*mf^2 + mV^2]*(8*mf^2 + mV^2)*Conjugate[g])/(24*Pi)"
+  },
+  "latex": {
+    "simplified": "\\frac{g g^* \\sqrt{m_V^2-4 m_f^2} \\left(8 m_f^2+m_V^2\\right)}{24 \\pi }"
+  },
+  "status": "complete",
+  "script_path": "/path/to/redacted"
+}

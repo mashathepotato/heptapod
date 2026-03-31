@@ -44,12 +44,14 @@ Tools are organized into named groups. Use `--groups` to select which ones to se
 |-------|-------|----------|
 | `pdg` | PDG database queries (mass, width, lifetime, branching fractions) | Internet |
 | `inspire` | INSPIRE HEP literature search, citations, BibTeX, reading list | Internet |
+| `nda` | QuickNDA decay width estimates, diagram enumeration, visualization | — |
 | `units` | Natural units and metric prefix conversions | — |
 | `analysis` | Kinematics, reconstruction, LHE/JSONL/NumPy conversion | — |
 | `event_gen` | MadGraph, Pythia, Sherpa event generation | MG5, Pythia, Sherpa |
 | `feynrules` | FeynRules `.fr` to UFO conversion | Mathematica |
+| `eda` | Exact Diagrammatic Analysis via FeynCalc | Mathematica |
 
-**Lightweight groups** (`pdg`, `inspire`, `units`) work out of the box with no external software. The remaining groups are skipped automatically if their dependencies are not installed.
+**Lightweight groups** (`pdg`, `inspire`, `nda`, `units`) work out of the box with no external software. The remaining groups are skipped automatically if their dependencies are not installed.
 
 ## CLI Options
 
@@ -321,3 +323,7 @@ from orchestral.mcp import create_fastmcp_server
 mcp = create_fastmcp_server(tools=tools, name="my-heptapod", port=9000)
 mcp.run(transport="streamable-http")
 ```
+
+## Tutorial Notebook
+
+See `mcp_tutorial.ipynb` for a comprehensive walkthrough covering tool exploration, schema inspection, server setup, client verification, and Claude Code integration.

@@ -1,0 +1,12 @@
+{
+  "symbolic": {
+    "ampSq": "(g*(mV^8 - 4*mV^6*(mV1^2 + mV2^2) + (mV1^2 - mV2^2)^2*(mV1^4 + 10*mV1^2*mV2^2 + mV2^4) + 2*mV^4*(3*mV1^4 + 8*mV1^2*mV2^2 + 3*mV2^4) - 4*mV^2*(mV1^6 + 5*mV1^4*mV2^2 + 5*mV1^2*mV2^4 + mV2^6))*Conjugate[g])/(4*mV^2*mV1^2*mV2^2)",
+    "width": "(g*Sqrt[(mV^2 - (mV1 - mV2)^2)*(mV^2 - (mV1 + mV2)^2)]*(mV^8 - 4*mV^6*(mV1^2 + mV2^2) + (mV1^2 - mV2^2)^2*(mV1^4 + 10*mV1^2*mV2^2 + mV2^4) + 2*mV^4*(3*mV1^4 + 8*mV1^2*mV2^2 + 3*mV2^4) - 4*mV^2*(mV1^6 + 5*mV1^4*mV2^2 + 5*mV1^2*mV2^4 + mV2^6))*Conjugate[g])/(192*mV^5*mV1^2*mV2^2*Pi)"
+  },
+  "latex": {
+    "ampSq": "\\frac{g g^* \\left(m_V^8-4 m_V^6 \\left(m_{V1}^2+m_{V2}^2\\right)+2 m_V^4 \\left(3 m_{V1}^4+8 m_{V1}^2 m_{V2}^2+3 m_{V2}^4\\right)-4 m_V^2 \\left(m_{V1}^6+5 m_{V1}^4 m_{V2}^2+5 m_{V1}^2 m_{V2}^4+m_{V2}^6\\right)+\\left(m_{V1}^2-m_{V2}^2\\right)^2 \\left(m_{V1}^4+10 m_{V1}^2 m_{V2}^2+m_{V2}^4\\right)\\right)}{4 m_V^2 m_{V1}^2 m_{V2}^2}",
+    "width": "\\frac{g g^* \\sqrt{\\left(m_V^2-(m_{V1}-m_{V2})^2\\right) \\left(m_V^2-(m_{V1}+m_{V2})^2\\right)} \\left(m_V^8-4 m_V^6 \\left(m_{V1}^2+m_{V2}^2\\right)+2 m_V^4 \\left(3 m_{V1}^4+8 m_{V1}^2 m_{V2}^2+3 m_{V2}^4\\right)-4 m_V^2 \\left(m_{V1}^6+5 m_{V1}^4 m_{V2}^2+5 m_{V1}^2 m_{V2}^4+m_{V2}^6\\right)+\\left(m_{V1}^2-m_{V2}^2\\right)^2 \\left(m_{V1}^4+10 m_{V1}^2 m_{V2}^2+m_{V2}^4\\right)\\right)}{192 \\pi  m_V^5 m_{V1}^2 m_{V2}^2}"
+  },
+  "status": "complete",
+  "script_path": "/path/to/redacted"
+}

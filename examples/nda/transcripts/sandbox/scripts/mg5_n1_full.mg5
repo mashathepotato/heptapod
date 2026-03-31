@@ -1,0 +1,10 @@
+set automatic_html_opening False
+import model sm-lepton_masses
+
+generate mu+ > e+ e+ e- ve vm~
+
+output ./MG5_mu_5body_full
+launch
+
+set nevents 0
+set lhaid 0

@@ -1,0 +1,86 @@
+{
+  "rank": 1,
+  "diagram": {
+    "topology": "tree_3body_1prop",
+    "initial": [
+      {
+        "label": "mu+",
+        "spin": 0.5,
+        "mass": 0.1056583745,
+        "charge": 1.0,
+        "lepton_e": 0.0,
+        "lepton_mu": -1.0,
+        "lepton_tau": 0.0,
+        "baryon_number": 0.0
+      }
+    ],
+    "final": [
+      {
+        "label": "e+",
+        "spin": 0.5,
+        "mass": 0.0005109989,
+        "charge": 1.0,
+        "lepton_e": -1.0,
+        "lepton_mu": 0.0,
+        "lepton_tau": 0.0,
+        "baryon_number": 0.0
+      },
+      {
+        "label": "nu_e",
+        "spin": 0.5,
+        "mass": 0.0,
+        "charge": 0.0,
+        "lepton_e": 1.0,
+        "lepton_mu": 0.0,
+        "lepton_tau": 0.0,
+        "baryon_number": 0.0
+      },
+      {
+        "label": "nu_mu_bar",
+        "spin": 0.5,
+        "mass": 0.0,
+        "charge": 0.0,
+        "lepton_e": 0.0,
+        "lepton_mu": -1.0,
+        "lepton_tau": 0.0,
+        "baryon_number": 0.0
+      }
+    ],
+    "vertices": [
+      {
+        "type": "left-handed-3pt",
+        "coupling": "g_w"
+      },
+      {
+        "type": "left-handed-3pt",
+        "coupling": "g_w"
+      }
+    ],
+    "couplings": {
+      "g_w": 0.653
+    },
+    "propagators": [
+      {
+        "label": "W+",
+        "mass": 80.379,
+        "regime": "auto"
+      }
+    ]
+  },
+  "width_gev": null,
+  "width_latex": "\\Gamma \\sim g_w^2 m_{mu+}",
+  "ranking_info": {
+    "loop_order": 0,
+    "coupling_power": 2,
+    "coupling_names": [
+      "g_w"
+    ],
+    "suppression_factors": [
+      "Heavy propagator: m = 80.4 GeV"
+    ],
+    "explanation": "Tree-level process. 3-body final state (phase space suppressed). 1 heavy propagator(s).",
+    "score": 0.18182463528100004,
+    "n_heavy_propagators": 1
+  },
+  "process_string": "F(0.1056583745) -> [V(80.379)] -> F(0.0005109989) F(0.0) F(0.0)"
+}
