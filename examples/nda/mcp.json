@@ -3,7 +3,7 @@
     "heptapod-nda": {
       "command": "/path/to/python",
       "args": [
-        "examples/mcp/heptapod_server_stdio.py",
+        "mcp/heptapod_server_stdio.py",
         "--groups", "nda_study"
       ]
     }
