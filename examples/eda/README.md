@@ -33,7 +33,7 @@ claude
 Or register the MCP server globally:
 
 ```bash
-claude mcp add heptapod-eda -- /path/to/python examples/mcp/heptapod_server_stdio.py --groups eda_study
+claude mcp add heptapod-eda -- /path/to/python mcp/heptapod_server_stdio.py --groups eda_study
 ```
 
 #### OpenAI Codex
@@ -46,13 +46,13 @@ mkdir my_eda_session && cd my_eda_session
 cp /path/to/heptapod/prompts/examples/eda/system/eda_system_prompt.md AGENTS.md
 
 # Register MCP server via Codex CLI
-codex mcp add heptapod-eda -- /path/to/python examples/mcp/heptapod_server_stdio.py --groups eda_study
+codex mcp add heptapod-eda -- /path/to/python mcp/heptapod_server_stdio.py --groups eda_study
 ```
 
 #### Orchestral
 
 ```python
-from examples.mcp.heptapod_tools import get_tools
+from mcp.heptapod_tools import get_tools
 tools = get_tools("eda_study")
 
 # Load system prompt

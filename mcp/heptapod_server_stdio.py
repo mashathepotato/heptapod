@@ -24,10 +24,10 @@ Usage:
 
 Claude Code integration:
     cd /path/to/heptapod
-    claude mcp add heptapod -- python "$(pwd)/examples/mcp/heptapod_server_stdio.py"
+    claude mcp add heptapod -- python "$(pwd)/mcp/heptapod_server_stdio.py"
 
     # Or with specific groups
-    claude mcp add heptapod -- python "$(pwd)/examples/mcp/heptapod_server_stdio.py" --groups pdg,inspire,units
+    claude mcp add heptapod -- python "$(pwd)/mcp/heptapod_server_stdio.py" --groups pdg,inspire,units
 
 Available tool groups:
     pdg           - Particle Data Group database (masses, widths, branching fractions)
