@@ -1,0 +1,32 @@
+Model:                   claude-opus-4-6
+Claude Code version:     2.1.79
+Service tier:            standard
+Session ID:              [redacted]
+Working directory:       ./sandbox
+
+Session wall-clock time: 73.0 min
+LLM inference time:      1717.0 s (28.6 min)
+User prompts:            1
+Assistant turns:          117
+Total tool calls:         66
+
+Token usage:
+  Output tokens:                 66,667
+  Cache creation tokens:        323,696
+  Cache read tokens:          8,685,723
+  Uncached input tokens:            197
+  Effective input tokens:     9,009,616
+  Total tokens:               9,076,283
+
+Tool call breakdown:
+  ComputeSymbolicAmplitude                  20
+  Read                                      11
+  Bash                                      10
+  Write                                      9
+  EstimateDecayWidthNDA                      5
+  PDGDatabase                                4
+  RunWolframScript                           2
+  SimplifyResultBatch                        2
+  ToolSearch                                 1
+  RunWolframScriptBatch                      1
+  Edit                                       1

@@ -1,0 +1,10 @@
+{
+  "symbolic": {
+    "simplified": "(g*(mS^2 - 4*mV1^2)^(3/2)*Conjugate[g])/(8*Pi)"
+  },
+  "latex": {
+    "simplified": "\\frac{g g^* \\left(m_S^2-4 m_{V1}^2\\right)^{3/2}}{8 \\pi }"
+  },
+  "status": "complete",
+  "script_path": "/path/to/redacted"
+}

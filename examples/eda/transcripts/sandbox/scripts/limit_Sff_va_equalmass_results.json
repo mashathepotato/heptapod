@@ -1,0 +1,10 @@
+{
+  "symbolic": {
+    "simplified": "(Sqrt[-4*mf^2 + mS^2]*(gP*mS^2*Conjugate[gP] + gS*(-4*mf^2 + mS^2)*Conjugate[gS]))/(8*mS^2*Pi)"
+  },
+  "latex": {
+    "simplified": "\\frac{\\sqrt{m_S^2-4 m_f^2} \\left(g_P m_S^2 g_P^*+g_S g_S^* \\left(m_S^2-4 m_f^2\\right)\\right)}{8 \\pi  m_S^2}"
+  },
+  "status": "complete",
+  "script_path": "/path/to/redacted"
+}

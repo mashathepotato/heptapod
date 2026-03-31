@@ -1,0 +1,10 @@
+{
+  "symbolic": {
+    "simplified": "(g*Sqrt[mV^2 - 4*mV1^2]*(mV^6 - 8*mV^4*mV1^2 + 28*mV^2*mV1^4 - 48*mV1^6)*Conjugate[g])/(192*mV^2*mV1^4*Pi)"
+  },
+  "latex": {
+    "simplified": "\\frac{g g^* \\sqrt{m_V^2-4 m_{V1}^2} \\left(m_V^6-8 m_V^4 m_{V1}^2+28 m_V^2 m_{V1}^4-48 m_{V1}^6\\right)}{192 \\pi  m_V^2 m_{V1}^4}"
+  },
+  "status": "complete",
+  "script_path": "/path/to/redacted"
+}

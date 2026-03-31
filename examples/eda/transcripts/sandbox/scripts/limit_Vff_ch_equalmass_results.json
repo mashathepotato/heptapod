@@ -1,0 +1,10 @@
+{
+  "symbolic": {
+    "simplified": "(Sqrt[-4*mf^2 + mV^2]*((-((gL - 3*gR)*mf^2) + gL*mV^2)*Conjugate[gL] + ((3*gL - gR)*mf^2 + gR*mV^2)*Conjugate[gR]))/(24*mV^2*Pi)"
+  },
+  "latex": {
+    "simplified": "\\frac{\\sqrt{m_V^2-4 m_f^2} \\left(g_L^* \\left(g_L m_V^2-m_f^2 (g_L-3 g_R)\\right)+g_R^* \\left(m_f^2 (3 g_L-g_R)+g_R m_V^2\\right)\\right)}{24 \\pi  m_V^2}"
+  },
+  "status": "complete",
+  "script_path": "/path/to/redacted"
+}

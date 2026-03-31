@@ -32,10 +32,12 @@ Claude Code integration:
 Available tool groups:
     pdg           - Particle Data Group database (masses, widths, branching fractions)
     inspire       - INSPIRE HEP literature search, citations, BibTeX
+    nda           - Naive Dimensional Analysis (QuickNDA, diagram enumeration)
     units         - Natural units & metric prefix conversions
     analysis      - Kinematics, reconstruction, data format conversion
     event_gen     - MadGraph, Pythia, Sherpa (requires external software)
     feynrules     - FeynRules-to-UFO conversion (requires Mathematica)
+    eda - Exact Diagrammatic Analysis via FeynCalc (requires Mathematica)
 """
 
 import sys
@@ -65,8 +67,9 @@ def main():
     )
     args = parser.parse_args()
 
-    # Parse group names
-    group_names = tuple(g.strip() for g in args.groups.split(",")) if args.groups else ()
+    # Parse group names: --groups flag > HEPTAPOD_GROUPS env var > all
+    groups_str = args.groups or os.environ.get("HEPTAPOD_GROUPS")
+    group_names = tuple(g.strip() for g in groups_str.split(",")) if groups_str else ()
 
     # Load tools
     tools = get_tools(*group_names, base_dir=args.workspace)

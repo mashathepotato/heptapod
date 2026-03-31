@@ -1,0 +1,12 @@
+{
+  "symbolic": {
+    "ampSq": "-((2*gR*mf*mfbar + gL*(mf^2 + mfbar^2 - mS^2))*Conjugate[gL]) - (2*gL*mf*mfbar + gR*(mf^2 + mfbar^2 - mS^2))*Conjugate[gR]",
+    "width": "-1/16*(Sqrt[(-(mf - mfbar)^2 + mS^2)*(-(mf + mfbar)^2 + mS^2)]*((2*gR*mf*mfbar + gL*(mf^2 + mfbar^2 - mS^2))*Conjugate[gL] + (2*gL*mf*mfbar + gR*(mf^2 + mfbar^2 - mS^2))*Conjugate[gR]))/(mS^3*Pi)"
+  },
+  "latex": {
+    "ampSq": "-\\left(g_L^* \\left(g_L \\left(m_f^2+m_{\\bar{f}}^2-m_S^2\\right)+2 g_R m_f m_{\\bar{f}}\\right)\\right)-g_R^* \\left(2 g_L m_f m_{\\bar{f}}+g_R \\left(m_f^2+m_{\\bar{f}}^2-m_S^2\\right)\\right)",
+    "width": "-\\frac{\\sqrt{\\left(m_S^2-(m_f-m_{\\bar{f}})^2\\right) \\left(m_S^2-(m_f+m_{\\bar{f}})^2\\right)} \\left(g_L^* \\left(g_L \\left(m_f^2+m_{\\bar{f}}^2-m_S^2\\right)+2 g_R m_f m_{\\bar{f}}\\right)+g_R^* \\left(2 g_L m_f m_{\\bar{f}}+g_R \\left(m_f^2+m_{\\bar{f}}^2-m_S^2\\right)\\right)\\right)}{16 \\pi  m_S^3}"
+  },
+  "status": "complete",
+  "script_path": "/path/to/redacted"
+}

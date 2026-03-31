@@ -313,7 +313,7 @@ def main():
     )
     parser.add_argument(
         "--only",
-        choices=["prereqs", "conversions", "kinematics", "reconstruction", "delta_r_filter", "feynrules", "mg5", "pythia", "sherpa", "llm", "pdg", "inspire", "units"],
+        choices=["prereqs", "conversions", "kinematics", "reconstruction", "delta_r_filter", "feynrules", "mg5", "pythia", "sherpa", "llm", "pdg", "inspire", "units", "nda", "eda", "feyngraph", "logging"],
         help="Run only tests for specified component (prereqs = prerequisites check only)"
     )
     parser.add_argument(
@@ -391,6 +391,33 @@ def main():
             "script": REPO_ROOT / "tools" / "units" / "tests" / "test_units.py",
             "description": "Unit conversion tools (natural units, metric prefix conversions)"
         },
+        "nda": {
+            "scripts": [
+                REPO_ROOT / "tools" / "nda" / "tests" / "test_branching_ratio.py",
+                REPO_ROOT / "tools" / "nda" / "tests" / "test_nda_dict_coupling.py",
+                REPO_ROOT / "tools" / "nda" / "tests" / "test_nda_formula.py",
+                REPO_ROOT / "tools" / "nda" / "tests" / "test_symbolic_diagram.py",
+            ],
+            "description": "NDA tools (decay width estimation, branching ratios, diagram validation)"
+        },
+        "eda": {
+            "scripts": [
+                REPO_ROOT / "tools" / "eda" / "tests" / "test_feyncalc_codegen.py",
+                REPO_ROOT / "tools" / "eda" / "tests" / "test_symbolic_codegen.py",
+                REPO_ROOT / "tools" / "eda" / "tests" / "test_symbolic_to_python.py",
+                REPO_ROOT / "tools" / "eda" / "tests" / "test_convert_to_python_tool.py",
+                REPO_ROOT / "tools" / "eda" / "tests" / "test_simplify_result_tool.py",
+                REPO_ROOT / "tools" / "eda" / "tests" / "test_skills_graph.py",
+                REPO_ROOT / "tools" / "eda" / "tests" / "test_wolfram_runner.py",
+                REPO_ROOT / "tools" / "eda" / "tests" / "test_run_wolfram_tool.py",
+                REPO_ROOT / "tools" / "eda" / "tests" / "test_e2e_feyncalc.py",
+            ],
+            "description": "EDA tools (FeynCalc codegen, Wolfram runner, symbolic-to-Python conversion)"
+        },
+        "logging": {
+            "script": REPO_ROOT / "tools" / "logging" / "tests" / "test_findings.py",
+            "description": "Logging tools (findings ledger)"
+        },
     }
 
     # Track results
@@ -416,21 +443,28 @@ def main():
                 continue
             # Otherwise, run the test - it should pass since Ollama was available
 
-        script_path = config["script"]
         description = config["description"]
-
-        if not script_path.exists():
-            print(f"[⚠] Warning: Test script not found: {script_path}\n")
-            results[component] = False
-            continue
+        script_paths = config.get("scripts", [config["script"]] if "script" in config else [])
 
         print_section(f"Testing: {component.upper()}")
-        results[component] = run_test_script(
-            script_path,
-            verbose=args.verbose,
-            keep_files=args.keep_files,
-            description=description
-        )
+
+        all_passed = True
+        for script_path in script_paths:
+            if not script_path.exists():
+                print(f"[⚠] Warning: Test script not found: {script_path}\n")
+                all_passed = False
+                continue
+
+            success = run_test_script(
+                script_path,
+                verbose=args.verbose,
+                keep_files=args.keep_files,
+                description=description
+            )
+            if not success:
+                all_passed = False
+
+        results[component] = all_passed
 
     # Print summary
     print_section("Test Summary")
