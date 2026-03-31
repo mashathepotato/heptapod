@@ -1,0 +1,12 @@
+{
+  "symbolic": {
+    "ampSq": "g*Conjugate[g]",
+    "width": "(g*Sqrt[(mS^2 - (mS1 - mS2)^2)*(mS^2 - (mS1 + mS2)^2)]*Conjugate[g])/(16*mS^3*Pi)"
+  },
+  "latex": {
+    "ampSq": "g g^*",
+    "width": "\\frac{g g^* \\sqrt{\\left(m_S^2-(m_{S1}-m_{S2})^2\\right) \\left(m_S^2-(m_{S1}+m_{S2})^2\\right)}}{16 \\pi  m_S^3}"
+  },
+  "status": "complete",
+  "script_path": "/path/to/redacted"
+}

@@ -1,0 +1,10 @@
+{
+  "symbolic": {
+    "simplified": "(g*mV^3*Conjugate[g])/(24*Pi)"
+  },
+  "latex": {
+    "simplified": "\\frac{g m_V^3 g^*}{24 \\pi }"
+  },
+  "status": "complete",
+  "script_path": "/path/to/redacted"
+}

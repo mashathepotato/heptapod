@@ -24,12 +24,14 @@ Usage:
     print(get_available_groups())
 
 Groups:
-    pdg           - Particle Data Group database queries
-    inspire       - INSPIRE HEP literature search
-    units         - Natural units & metric prefix conversions
-    analysis      - Kinematics, reconstruction, data conversion
-    event_gen     - MadGraph, Pythia, Sherpa event generation (requires external software)
-    feynrules     - FeynRules-to-UFO conversion (requires Mathematica)
+    pdg              - Particle Data Group database queries
+    inspire          - INSPIRE HEP literature search
+    nda              - Naive Dimensional Analysis (QuickNDA)
+    units            - Natural units & metric prefix conversions
+    analysis         - Kinematics, reconstruction, data conversion
+    event_gen        - MadGraph, Pythia, Sherpa event generation (requires external software)
+    feynrules        - FeynRules-to-UFO conversion (requires Mathematica)
+    eda              - Exact Diagrammatic Analysis via FeynCalc (requires Mathematica)
 """
 
 import sys
@@ -42,7 +44,7 @@ REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(REPO_ROOT))
 
 # Default workspace directory for tool output
-DEFAULT_WORKSPACE = os.path.expanduser("~/.heptapod/mcp_workspace")
+DEFAULT_WORKSPACE = os.getcwd()
 
 
 # ================================================================== #
@@ -84,6 +86,20 @@ def _make_inspire_tools(base_dir: str) -> list:
         _named(InspireAuthorTool(base_directory=base_dir),      "INSPIREAuthor"),
         _named(InspireReadingListTool(base_directory=base_dir), "INSPIREReadingList"),
         _named(InspireNotesTool(base_directory=base_dir),       "INSPIRENotes"),
+    ]
+
+
+def _make_nda_tools(base_dir: str) -> list:
+    """NDA tools — decay width estimation, branching ratios, diagram enumeration, visualization."""
+    from tools.nda import EstimateDecayWidthNDATool, EstimateDecayWidthFormulaNDATool, EstimateBranchingRatioNDATool, EstimatePhaseSpaceTool
+    from tools.feyngraph import EnumerateDiagramsTool, VisualizeDiagramsTool
+    return [
+        _named(EstimateDecayWidthNDATool(base_directory=base_dir),      "EstimateDecayWidthNDA"),
+        _named(EstimateDecayWidthFormulaNDATool(base_directory=base_dir), "EstimateDecayWidthFormulaNDA"),
+        _named(EstimateBranchingRatioNDATool(base_directory=base_dir),  "EstimateBranchingRatioNDA"),
+        _named(EstimatePhaseSpaceTool(base_directory=base_dir),         "EstimatePhaseSpace"),
+        _named(EnumerateDiagramsTool(base_directory=base_dir),          "EnumerateDiagrams"),
+        _named(VisualizeDiagramsTool(base_directory=base_dir),          "VisualizeDiagrams"),
     ]
 
 
@@ -149,21 +165,119 @@ def _make_feynrules_tools(base_dir: str) -> list:
     ]
 
 
+def _make_eda_tools(base_dir: str) -> list:
+    """EDA (Exact Diagrammatic Analysis) — tree-level calculations via FeynCalc (requires Mathematica)."""
+    import config
+    from tools.eda import RunWolframScript, RunWolframScriptBatch, ComputeSymbolicAmplitude, ConvertToPython, SimplifyResult, SimplifyResultBatch
+    return [
+        _named(RunWolframScript(
+            base_directory=base_dir,
+            wolframscript_path=config.wolframscript_path,
+        ), "RunWolframScript"),
+        _named(RunWolframScriptBatch(
+            base_directory=base_dir,
+            wolframscript_path=config.wolframscript_path,
+        ), "RunWolframScriptBatch"),
+        _named(ComputeSymbolicAmplitude(
+            base_directory=base_dir,
+        ), "ComputeSymbolicAmplitude"),
+        _named(ConvertToPython(
+            base_directory=base_dir,
+        ), "ConvertToPython"),
+        _named(SimplifyResult(
+            base_directory=base_dir,
+        ), "SimplifyResult"),
+        _named(SimplifyResultBatch(
+            base_directory=base_dir,
+        ), "SimplifyResultBatch"),
+    ]
+
+
+# ================================================================== #
+# ====================== Composite Groups ========================= #
+# ================================================================== #
+# Task-specific groups that combine tools from multiple modules.
+
+
+def _make_eda_study_tools(base_dir: str) -> list:
+    """EDA study toolkit — symbolic path via FeynCalc + NDA cross-checks.
+
+    Designed for exact tree-level calculations via FeynCalc,
+    with NDA sanity checks and PDG reference values.
+    """
+    import config
+    from tools.nda import EstimateDecayWidthNDATool, EstimateDecayWidthFormulaNDATool
+    from tools.eda import RunWolframScript, RunWolframScriptBatch, ComputeSymbolicAmplitude, ConvertToPython, SimplifyResult, SimplifyResultBatch
+    from tools.pdg import PDGDatabaseTool
+    return [
+        # EDA (exact path)
+        _named(ComputeSymbolicAmplitude(base_directory=base_dir), "ComputeSymbolicAmplitude"),
+        _named(RunWolframScript(
+            base_directory=base_dir,
+            wolframscript_path=config.wolframscript_path,
+        ), "RunWolframScript"),
+        _named(RunWolframScriptBatch(
+            base_directory=base_dir,
+            wolframscript_path=config.wolframscript_path,
+        ), "RunWolframScriptBatch"),
+        _named(SimplifyResult(base_directory=base_dir), "SimplifyResult"),
+        _named(SimplifyResultBatch(base_directory=base_dir), "SimplifyResultBatch"),
+        _named(ConvertToPython(base_directory=base_dir), "ConvertToPython"),
+        # NDA (cross-checks)
+        _named(EstimateDecayWidthNDATool(base_directory=base_dir), "EstimateDecayWidthNDA"),
+        _named(EstimateDecayWidthFormulaNDATool(base_directory=base_dir), "EstimateDecayWidthFormulaNDA"),
+        # PDG (reference values)
+        _named(PDGDatabaseTool(base_directory=base_dir), "PDGDatabase"),
+    ]
+
+
+def _make_nda_study_tools(base_dir: str) -> list:
+    """NDA study toolkit — NDA + PDG + MadGraph cross-check.
+
+    Designed for multi-channel decay studies: enumerate diagrams, estimate
+    rates with NDA, look up PDG reference values, and optionally validate
+    against exact MadGraph widths.
+    """
+    import config
+    from tools.nda import EstimateDecayWidthNDATool, EstimateDecayWidthFormulaNDATool, EstimateBranchingRatioNDATool, EstimatePhaseSpaceTool
+    from tools.feyngraph import EnumerateDiagramsTool, VisualizeDiagramsTool
+    from tools.pdg import PDGDatabaseTool, PDGSearchTool
+    from tools.mg5 import MadGraphFromRunCardTool
+    return [
+        # NDA
+        _named(EstimateDecayWidthNDATool(base_directory=base_dir),      "EstimateDecayWidthNDA"),
+        _named(EstimateDecayWidthFormulaNDATool(base_directory=base_dir), "EstimateDecayWidthFormulaNDA"),
+        _named(EstimateBranchingRatioNDATool(base_directory=base_dir),  "EstimateBranchingRatioNDA"),
+        _named(EstimatePhaseSpaceTool(base_directory=base_dir),         "EstimatePhaseSpace"),
+        _named(EnumerateDiagramsTool(base_directory=base_dir),          "EnumerateDiagrams"),
+        _named(VisualizeDiagramsTool(base_directory=base_dir),          "VisualizeDiagrams"),
+        # PDG
+        _named(PDGDatabaseTool(base_directory=base_dir),                "PDGDatabase"),
+        _named(PDGSearchTool(base_directory=base_dir),                  "PDGSearch"),
+        # MadGraph (exact cross-check)
+        _named(MadGraphFromRunCardTool(base_directory=base_dir, mg5_path=config.mg5_path), "MadGraphFromRunCard"),
+    ]
+
+
 # ================================================================== #
 # ======================== Group Registry ========================== #
 # ================================================================== #
 
 TOOL_GROUPS: dict[str, Callable[[str], list]] = {
-    "pdg":           _make_pdg_tools,
-    "inspire":       _make_inspire_tools,
-    "units":         _make_units_tools,
-    "analysis":      _make_analysis_tools,
-    "event_gen":     _make_event_gen_tools,
-    "feynrules":     _make_feynrules_tools,
+    "pdg":              _make_pdg_tools,
+    "inspire":          _make_inspire_tools,
+    "nda":              _make_nda_tools,
+    "units":            _make_units_tools,
+    "analysis":         _make_analysis_tools,
+    "event_gen":        _make_event_gen_tools,
+    "feynrules":        _make_feynrules_tools,
+    "eda":              _make_eda_tools,
+    "nda_study":              _make_nda_study_tools,
+    "eda_study":              _make_eda_study_tools,
 }
 
 # Groups that work out of the box (no external software)
-LIGHTWEIGHT_GROUPS = ["pdg", "inspire", "units"]
+LIGHTWEIGHT_GROUPS = ["pdg", "inspire", "nda", "units"]
 
 
 def get_available_groups(base_dir: str | None = None) -> list[str]:

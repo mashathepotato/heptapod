@@ -1,0 +1,12 @@
+{
+  "symbolic": {
+    "ampSq": "8*g*(-(mV1^2*mV2^2) + (-mS^2 + mV1^2 + mV2^2)^2/4)*Conjugate[g]",
+    "width": "(g*((mS^2 - (mV1 - mV2)^2)*(mS^2 - (mV1 + mV2)^2))^(3/2)*Conjugate[g])/(8*mS^3*Pi)"
+  },
+  "latex": {
+    "ampSq": "8 g g^* \\left(\\frac{1}{4} \\left(-m_S^2+m_{V1}^2+m_{V2}^2\\right)^2-m_{V1}^2 m_{V2}^2\\right)",
+    "width": "\\frac{g g^* \\left(\\left(m_S^2-(m_{V1}-m_{V2})^2\\right) \\left(m_S^2-(m_{V1}+m_{V2})^2\\right)\\right)^{3/2}}{8 \\pi  m_S^3}"
+  },
+  "status": "complete",
+  "script_path": "/path/to/redacted"
+}

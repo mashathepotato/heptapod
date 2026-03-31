@@ -34,10 +34,12 @@ Claude Code integration:
 Available tool groups:
     pdg           - Particle Data Group database (masses, widths, branching fractions)
     inspire       - INSPIRE HEP literature search, citations, BibTeX
+    nda           - Naive Dimensional Analysis (QuickNDA, diagram enumeration)
     units         - Natural units & metric prefix conversions
     analysis      - Kinematics, reconstruction, data format conversion
     event_gen     - MadGraph, Pythia, Sherpa (requires external software)
     feynrules     - FeynRules-to-UFO conversion (requires Mathematica)
+    eda - Exact Diagrammatic Analysis via FeynCalc (requires Mathematica)
 """
 
 import sys

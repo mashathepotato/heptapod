@@ -74,6 +74,41 @@ def _grep_lhe_from_log(log_path: str) -> Optional[str]:
     return None
 
 
+def _parse_width_from_log(log_path: str) -> Optional[dict[str, float]]:
+    """Extract decay width from MadGraph log (useful for nevents=0 runs).
+
+    MadGraph prints the width as:
+        Width :   1.157e-23 +- 3.28e-25 GeV
+    or cross section as:
+        Cross-section :   1.234e+02 +- 5.67e+00 pb
+
+    Returns dict with width_gev/cross_section_pb and error, or None.
+    """
+    import re
+    try:
+        with open(log_path, "r", encoding="utf-8") as fp:
+            content = fp.read()
+
+        # Look for "Width :" line (decay processes)
+        m = re.search(r"Width\s*:\s*([\d.eE+-]+)\s*\+-\s*([\d.eE+-]+)\s*GeV", content)
+        if m:
+            return {
+                "width_gev": float(m.group(1)),
+                "width_gev_error": float(m.group(2)),
+            }
+
+        # Look for "Cross-section :" line (scattering processes)
+        m = re.search(r"Cross-section\s*:\s*([\d.eE+-]+)\s*\+-\s*([\d.eE+-]+)\s*pb", content)
+        if m:
+            return {
+                "cross_section_pb": float(m.group(1)),
+                "cross_section_pb_error": float(m.group(2)),
+            }
+    except Exception:
+        pass
+    return None
+
+
 def _safe_join(base_dir: str, rel_path: str) -> Optional[str]:
     """
     Resolve rel_path against base_dir.
@@ -439,19 +474,26 @@ class MadGraphFromRunCardTool(BaseTool):
                 text=True,
             )
         if completed.returncode != 0:
+            # MG5 may exit nonzero on nevents=0 (ZeroDivisionError) but the
+            # width is still computed and logged.  Check for it before failing.
+            width_info = _parse_width_from_log(log_local_path)
+            if width_info is not None:
+                result = {
+                    "status": "ok",
+                    "scan_detected": False,
+                    "data_dir": os.path.relpath(outdir, self.base_directory),
+                    "log_file": os.path.relpath(log_local_path, self.base_directory),
+                    "lhe_file": None,
+                    "note": "mg5 exited nonzero but width/cross-section was computed (likely nevents=0)",
+                }
+                result.update(width_info)
+                return json.dumps(result, separators=(",", ":"), ensure_ascii=False)
+
             return self.format_error(
                 error="MadGraph Error",
                 reason="mg5_aMC exited nonzero",
                 suggestion="Inspect mg5_run.log for details",
                 context=f"log={os.path.relpath(log_local_path, self.base_directory)}"
-            )
-
-        if completed.returncode != 0:
-            return self.format_error(
-                error="MadGraph Error",
-                reason="mg5_aMC exited nonzero",
-                context=completed.stderr[-1000:],  # tail for debugging
-                suggestion="Inspect proc_card.dat syntax and model import"
             )
 
         # Try to locate LHE file and detect parameter scans.
@@ -460,6 +502,21 @@ class MadGraphFromRunCardTool(BaseTool):
             lhe_candidate = _grep_lhe_from_log(log_local_path)
 
         if lhe_candidate is None:
+            # No LHE file — but for nevents=0 runs, the width/cross-section
+            # is still printed in the log.  Extract it if available.
+            width_info = _parse_width_from_log(log_local_path)
+            if width_info is not None:
+                result = {
+                    "status": "ok",
+                    "scan_detected": False,
+                    "data_dir": os.path.relpath(outdir, self.base_directory),
+                    "log_file": os.path.relpath(log_local_path, self.base_directory),
+                    "lhe_file": None,
+                    "note": "nevents=0: no events generated, width/cross-section extracted from log",
+                }
+                result.update(width_info)
+                return json.dumps(result, separators=(",", ":"), ensure_ascii=False)
+
             return self.format_error(
                 error="Output Missing",
                 reason="Could not locate unweighted_events.lhe",

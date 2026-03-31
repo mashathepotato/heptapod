@@ -1,0 +1,12 @@
+{
+  "symbolic": {
+    "ampSq": "(-2*(gA*(mf^4 + mfbar^4 + 6*mf*mfbar*mV^2 + mfbar^2*mV^2 - 2*mV^4 + mf^2*(-2*mfbar^2 + mV^2))*Conjugate[gA] + gV*(mf^4 + mfbar^4 - 6*mf*mfbar*mV^2 + mfbar^2*mV^2 - 2*mV^4 + mf^2*(-2*mfbar^2 + mV^2))*Conjugate[gV]))/mV^2",
+    "width": "-1/24*(Sqrt[(-(mf - mfbar)^2 + mV^2)*(-(mf + mfbar)^2 + mV^2)]*(gA*(mf^4 + mfbar^4 + 6*mf*mfbar*mV^2 + mfbar^2*mV^2 - 2*mV^4 + mf^2*(-2*mfbar^2 + mV^2))*Conjugate[gA] + gV*(mf^4 + mfbar^4 - 6*mf*mfbar*mV^2 + mfbar^2*mV^2 - 2*mV^4 + mf^2*(-2*mfbar^2 + mV^2))*Conjugate[gV]))/(mV^5*Pi)"
+  },
+  "latex": {
+    "ampSq": "-\\frac{2 \\left(g_A g_A^* \\left(m_f^4+m_f^2 \\left(m_V^2-2 m_{\\bar{f}}^2\\right)+6 m_f m_{\\bar{f}} m_V^2+m_{\\bar{f}}^4+m_{\\bar{f}}^2 m_V^2-2 m_V^4\\right)+g_V g_V^* \\left(m_f^4+m_f^2 \\left(m_V^2-2 m_{\\bar{f}}^2\\right)-6 m_f m_{\\bar{f}} m_V^2+m_{\\bar{f}}^4+m_{\\bar{f}}^2 m_V^2-2 m_V^4\\right)\\right)}{m_V^2}",
+    "width": "-\\frac{\\sqrt{\\left(m_V^2-(m_f-m_{\\bar{f}})^2\\right) \\left(m_V^2-(m_f+m_{\\bar{f}})^2\\right)} \\left(g_A g_A^* \\left(m_f^4+m_f^2 \\left(m_V^2-2 m_{\\bar{f}}^2\\right)+6 m_f m_{\\bar{f}} m_V^2+m_{\\bar{f}}^4+m_{\\bar{f}}^2 m_V^2-2 m_V^4\\right)+g_V g_V^* \\left(m_f^4+m_f^2 \\left(m_V^2-2 m_{\\bar{f}}^2\\right)-6 m_f m_{\\bar{f}} m_V^2+m_{\\bar{f}}^4+m_{\\bar{f}}^2 m_V^2-2 m_V^4\\right)\\right)}{24 \\pi  m_V^5}"
+  },
+  "status": "complete",
+  "script_path": "/path/to/redacted"
+}

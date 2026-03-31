@@ -600,3 +600,121 @@ result = tool.run(
 - `m1`, `m2`: Individual resonance masses
 - `Delta_m`: Mass difference |m1 - m2|
 - `m_avg`: Average mass (m1 + m2) / 2
+
+---
+
+### NDA & Diagram Enumeration Tools
+
+#### EstimateDecayWidthNDATool
+
+**Purpose**: Estimate decay widths using Naive Dimensional Analysis (arXiv:1402.1178)
+
+**Input Parameters:**
+- `diagram` (dict): Diagram specification with `initial`, `final`, `vertices`, and optionally `propagators`, `couplings`, `color_factor`
+- `process_label` (str, optional): Display label (e.g., `"H → bb̄"`)
+- `reference_width` (float, optional): Reference width in GeV for comparison
+- `include_summary` (bool): Include formatted summary (default: True)
+
+**Output:**
+```json
+{
+  "status": "ok",
+  "width_gev": 0.00437,
+  "width_gev_nda_raw": 0.01749,
+  "method": "improved (arXiv:1402.1178)",
+  "formula": "\\Gamma \\sim \\frac{y^2 M}{16\\pi}"
+}
+```
+
+**Example:**
+```python
+from tools.nda import EstimateDecayWidthNDATool
+
+tool = EstimateDecayWidthNDATool(
+    diagram={
+        "initial": [{"label": "H", "spin": 0, "mass": 125.1}],
+        "final": [
+            {"label": "b", "spin": 0.5, "mass": 4.18},
+            {"label": "bbar", "spin": 0.5, "mass": 4.18}
+        ],
+        "vertices": [{"type": "yukawa", "coupling": "yb"}],
+        "couplings": {"yb": 0.0242},
+        "color_factor": 3.0
+    },
+    base_directory="./workspace"
+)
+```
+
+**Note — back-to-back kinematic correction**: For 2-body decays with
+fermionic final states, the improved estimate applies a factor-of-2
+correction to account for back-to-back kinematics. In 2-body decays
+$\vec{p}_1 = -\vec{p}_2$, so $p_1 \cdot p_2 = 2 E_1 E_2$ (massless)
+rather than the $\sim E_1 E_2$ assumed by the NDA polarization factors.
+This correction is vertex-type-dependent: it applies to unprojected trace
+structures (`yukawa`, `vector`, `va`, etc.) but not to chiral-projected
+vertices (`left-handed`, `right-handed`, `chiral`), where the $P_L$
+projector halves the trace and exactly cancels the kinematic enhancement.
+No correction is applied for $n \geq 3$ body decays.
+
+---
+
+#### EstimateBranchingRatioNDATool
+
+**Purpose**: Estimate branching ratios across multiple diagram classes
+
+**Input Parameters:**
+- `diagram_classes` (list): List of `{"diagram": {...}, "n_diagrams": N}` dicts (or `"diagram_path"` by reference)
+- `reference_width` (float): Total width in GeV for BR denominator
+- `process_label` (str, optional): Display label
+- `reference_label` (str): Label for the reference width (default: `"Total width"`)
+
+**Output:**
+```json
+{
+  "status": "ok",
+  "n_classes": 2,
+  "n_diagrams_total": 126,
+  "partial_width_gev": 1.23e-20,
+  "branching_ratio": 4.56e-10,
+  "class_results": [...]
+}
+```
+
+---
+
+#### EnumerateDiagramsTool
+
+**Purpose**: Enumerate all Feynman diagrams for a process using FeynGraph
+
+**Input Parameters:**
+- `initial` (list): Initial-state particle labels, e.g., `["H"]`
+- `final` (list): Final-state particle labels, e.g., `["b", "bbar"]`
+- `max_loops` (int): Maximum loop order (default: 0 = tree level)
+- `metadata_only` (bool): Return only class counts and representative diagrams (default: False)
+- `save_diagrams` (bool): Save JSON + SVG files to disk (default: True)
+
+**Output:**
+```json
+{
+  "status": "ok",
+  "n_diagrams": 3,
+  "process": "H -> b bbar",
+  "diagrams": [...],
+  "br_classes": [...]
+}
+```
+
+The `metadata_only` output includes a `br_classes` array that can be passed
+directly to `EstimateBranchingRatioNDA` as `diagram_classes`.
+
+**Example:**
+```python
+from tools.feyngraph import EnumerateDiagramsTool
+
+tool = EnumerateDiagramsTool(
+    initial=["mu-"],
+    final=["e-", "nu_ebar", "nu_mu"],
+    metadata_only=True,
+    base_directory="./workspace"
+)
+```

@@ -1,0 +1,158 @@
+{
+  "rank": 85,
+  "diagram": {
+    "topology": "tree_nbody_nprop",
+    "initial": [
+      {
+        "label": "mu+",
+        "spin": 0.5,
+        "mass": 0.1056583745,
+        "charge": 1.0,
+        "lepton_e": 0.0,
+        "lepton_mu": -1.0,
+        "lepton_tau": 0.0,
+        "baryon_number": 0.0
+      }
+    ],
+    "final": [
+      {
+        "label": "e+",
+        "spin": 0.5,
+        "mass": 0.0005109989,
+        "charge": 1.0,
+        "lepton_e": -1.0,
+        "lepton_mu": 0.0,
+        "lepton_tau": 0.0,
+        "baryon_number": 0.0
+      },
+      {
+        "label": "e+",
+        "spin": 0.5,
+        "mass": 0.0005109989,
+        "charge": 1.0,
+        "lepton_e": -1.0,
+        "lepton_mu": 0.0,
+        "lepton_tau": 0.0,
+        "baryon_number": 0.0
+      },
+      {
+        "label": "e+",
+        "spin": 0.5,
+        "mass": 0.0005109989,
+        "charge": 1.0,
+        "lepton_e": -1.0,
+        "lepton_mu": 0.0,
+        "lepton_tau": 0.0,
+        "baryon_number": 0.0
+      },
+      {
+        "label": "e-",
+        "spin": 0.5,
+        "mass": 0.0005109989,
+        "charge": -1.0,
+        "lepton_e": 1.0,
+        "lepton_mu": 0.0,
+        "lepton_tau": 0.0,
+        "baryon_number": 0.0
+      },
+      {
+        "label": "e-",
+        "spin": 0.5,
+        "mass": 0.0005109989,
+        "charge": -1.0,
+        "lepton_e": 1.0,
+        "lepton_mu": 0.0,
+        "lepton_tau": 0.0,
+        "baryon_number": 0.0
+      },
+      {
+        "label": "nu_e",
+        "spin": 0.5,
+        "mass": 0.0,
+        "charge": 0.0,
+        "lepton_e": 1.0,
+        "lepton_mu": 0.0,
+        "lepton_tau": 0.0,
+        "baryon_number": 0.0
+      },
+      {
+        "label": "nu_mu_bar",
+        "spin": 0.5,
+        "mass": 0.0,
+        "charge": 0.0,
+        "lepton_e": 0.0,
+        "lepton_mu": -1.0,
+        "lepton_tau": 0.0,
+        "baryon_number": 0.0
+      }
+    ],
+    "vertices": [
+      {
+        "type": "left-handed-3pt",
+        "coupling": "g_w"
+      },
+      {
+        "type": "left-handed-3pt",
+        "coupling": "g_w"
+      },
+      {
+        "type": "vector-3pt",
+        "coupling": "e"
+      },
+      {
+        "type": "vector-3pt",
+        "coupling": "e"
+      },
+      {
+        "type": "gauge-4pt",
+        "coupling": "g"
+      }
+    ],
+    "couplings": {
+      "g_w": 0.653,
+      "e": 0.302822,
+      "g": 1.0
+    },
+    "propagators": [
+      {
+        "label": "W+",
+        "mass": 80.379,
+        "regime": "auto"
+      },
+      {
+        "label": "W-",
+        "mass": 80.379,
+        "regime": "auto"
+      },
+      {
+        "label": "gamma",
+        "mass": 0.0,
+        "regime": "auto"
+      },
+      {
+        "label": "gamma",
+        "mass": 0.0,
+        "regime": "auto"
+      }
+    ]
+  },
+  "width_gev": null,
+  "width_latex": "\\Gamma \\sim e^5 g^5 g_w^5 m_{mu+}",
+  "ranking_info": {
+    "loop_order": 0,
+    "coupling_power": 5,
+    "coupling_names": [
+      "g_w",
+      "e",
+      "g"
+    ],
+    "suppression_factors": [
+      "Heavy propagator: m = 80.4 GeV",
+      "Heavy propagator: m = 80.4 GeV"
+    ],
+    "explanation": "Tree-level process. 2 heavy propagator(s).",
+    "score": 1.5289821625634908e-06,
+    "n_heavy_propagators": 2
+  },
+  "process_string": "F(0.1056583745) -> [V(80.379)] [V(80.379)] [V(0.0)] [V(0.0)] -> F(0.0005109989) F(0.0005109989) F(0.0005109989) F(0.0005109989) F(0.0005109989) F(0.0) F(0.0)"
+}
