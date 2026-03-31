@@ -7,62 +7,23 @@
 
 ## Overview
 
-**HEPTAPOD** (High-Energy Physics Toolkit for Agentic Planning, Orchestration, and Deployment) is a toolkit and orchestration framework designed to **integrate LLMs into general HEP workflows** spanning theoretical calculations, simulation, and data analysis.
+**HEPTAPOD** (High-Energy Physics Toolkit for Agentic Planning, Orchestration, and Deployment) is a toolkit and orchestration framework designed to **integrate LLM agents into general HEP workflows** spanning theoretical calculations, simulation, and data analysis.
 
-Built on the [Orchestral AI](https://orchestral-ai.com) engine, HEPTAPOD enables LLMs to interface with domain-specific tools — from particle data lookups and literature search to event generation and kinematic analysis — and to construct and manage diverse HEP pipelines while preserving **transparency, reproducibility, and human oversight**. Rather than replacing existing workflows, HEPTAPOD provides a structured and auditable layer between human researchers, LLMs, and computational infrastructure.
+Built on the [Orchestral AI](https://orchestral-ai.com) engine, HEPTAPOD enables LLM agents to interface with domain-specific tools — from symbolic amplitude calculations and particle data lookups to event generation and kinematic analysis — and to construct and manage diverse HEP pipelines while preserving **transparency, reproducibility, and human oversight**. Rather than replacing existing workflows, HEPTAPOD provides a structured and auditable layer between human researchers, LLM agents, and computational infrastructure.
 
 In practice, HEPTAPOD currently enables researchers to:
 
-- Define workflows at the level of **physics intent**, not scripts
+- Compute **exact tree-level decay widths and cross sections** via automatic FeynCalc code generation (EDA)
+- Obtain **order-of-magnitude rate estimates** through Naive Dimensional Analysis (NDA)
+- **Enumerate and rank Feynman diagrams** automatically via FeynGraph integration
 - Query **particle properties**, **literature databases**, and **unit conversions** through tool interfaces
-- Execute **multi-stage pipelines** (model → events → analysis) with consistent metadata
-- Automatically handle **parameter scans**, intermediate artifacts, and failure recovery
-- Expose tools to AI research assistants via **MCP** (Model Context Protocol) for interactive use
+- Execute **multi-stage simulation pipelines** (model → events → analysis) with consistent metadata
+- Expose tools to LLM agents via **MCP** (Model Context Protocol) for use with Claude Code, OpenAI Codex, and other MCP clients
 - Maintain **fully reproducible, auditable execution traces** via run cards and structured outputs
 
-The design and philosophy of HEPTAPOD are described in detail in the accompanying paper [https://arxiv.org/abs/2512.15867](https://arxiv.org/abs/2512.15867).
+All tools are exposed via the **Model Context Protocol (MCP)**, making them available to Claude Code, OpenAI Codex, and any MCP-compatible client as interactive research assistants.
 
----
-
-## Key Features
-
-- **General-purpose HEP toolkit** spanning theoretical calculations, simulation, and data analysis
-- **Domain-specific tool interfaces** for particle data (PDG), literature search (INSPIRE), unit conversions, event generation, and kinematic analysis
-- **Agent-driven planning and execution** with explicit human oversight
-- **Schema-validated operations** that formalize interactions with HEP software
-- **Run-card–based configuration** as a stable, auditable orchestration boundary
-- **Automatic metadata and state propagation** across multi-stage workflows
-- **Structured error handling and recovery** for long-running or branching executions
-- **LLM-compatible intermediate data formats** for inspection, validation, and debugging
-- **MCP server support** for exposing tools to Claude Code, Claude Desktop, OpenAI Codex, and other MCP clients
-
----
-
-## Directory Structure
-
-```bash
-heptapod/
-├── tools/                       # Physics tools for event generation and analysis
-│   ├── feynrules/               # FeynRules → UFO model generation
-│   ├── mg5/                     # MadGraph parton-level event generation
-│   ├── pythia/                  # Pythia hadronization and showering
-│   ├── sherpa/                  # Sherpa event generation and UFO conversion
-│   ├── analysis/                # Data conversion and kinematics tools
-│   ├── pdg/                     # PDG database queries (masses, widths, branching fractions)
-│   ├── inspire/                 # INSPIRE HEP literature search, citations, BibTeX
-│   └── units/                   # Natural units and metric prefix conversions
-├── llm/                         # LLM utilities and Ollama integration
-│   ├── utils.py                 # Helper functions (get_ollama, etc.)
-│   └── test_ollama_*.py         # Ollama integration tests
-├── examples/                    # Example workflows and demos
-│   ├── mcp/                     # MCP server scripts and documentation
-│   ├── hep_bsm_demo.py          # Main demo application
-│   └── todos/                   # Example task lists
-├── prompts/                     # System prompts for agent orchestration
-├── config.py                    # Configuration (Ollama + external tool paths)
-├── test_runner.py               # Master test runner
-└── requirements.txt             # Python dependencies
-```
+The first HEPTAPOD paper ([arXiv:2512.15867](https://arxiv.org/abs/2512.15867)) introduces the framework and applies agentic programming to the Monte Carlo event generation pipeline. The second paper ([arXiv:2603.26990](https://arxiv.org/abs/2603.26990)) extends HEPTAPOD with agentic symbolic computation (Diagrammatica) and presents a general argument for tool-constrained agentic programming in scientific domains.
 
 ---
 
@@ -188,14 +149,14 @@ This checks:
 
 ### External Dependencies
 
-#### FeynRules and Mathematica
+#### Mathematica and WolframScript
 
-**Required for model generation tools only. Skip if using pre-generated UFO models.**
+**Required for the EDA toolkit (exact symbolic calculations) and FeynRules model generation.**
 
-1. **Mathematica** (currently FeynRules supports versions 13.3 or earlier)
+1. **Mathematica** with [FeynCalc](https://feyncalc.github.io/) installed
    - Download from [Wolfram Research](https://www.wolfram.com/mathematica/)
    - Requires valid license
-   - WolframScript included with Mathematica installation
+   - WolframScript is included with Mathematica
 
 2. **Authenticate WolframScript:**
    ```bash
@@ -203,9 +164,9 @@ This checks:
    # Enter your Wolfram credentials when prompted
    ```
 
-   For details on WolframScript usage, environment variables, and advanced options, see the [WolframScript documentation](https://reference.wolfram.com/language/ref/program/wolframscript.html).
+   For details on WolframScript usage, see the [WolframScript documentation](https://reference.wolfram.com/language/ref/program/wolframscript.html).
 
-3. **FeynRules** (version 2.3.49 recommended)
+3. **FeynRules** (version 2.3.49 recommended, for UFO model generation only)
    - Download from [FeynRules website](https://feynrules.irmp.ucl.ac.be/)
    - Extract to a permanent location (e.g., `/path/to/FeynRules_v2.3.49`)
 
@@ -287,6 +248,12 @@ python test_runner.py --skip-slow
 
 # Run only specific components
 python test_runner.py --only prereqs
+python test_runner.py --only nda              # NDA tools
+python test_runner.py --only eda              # EDA tools (requires wolframscript for some tests)
+python test_runner.py --only logging          # Logging utilities
+python test_runner.py --only pdg
+python test_runner.py --only inspire
+python test_runner.py --only units
 python test_runner.py --only llm
 python test_runner.py --only conversions
 python test_runner.py --only kinematics
@@ -296,9 +263,6 @@ python test_runner.py --only feynrules
 python test_runner.py --only mg5
 python test_runner.py --only pythia
 python test_runner.py --only sherpa
-python test_runner.py --only pdg
-python test_runner.py --only inspire
-python test_runner.py --only units
 ```
 
 ---
@@ -308,8 +272,11 @@ python test_runner.py --only units
 HEPTAPOD tools can be exposed as an [MCP (Model Context Protocol)](https://modelcontextprotocol.io) server, making them available to Claude Code, Claude Desktop, OpenAI Codex, and any MCP-compatible client.
 
 ```bash
-# Serve lightweight tools (PDG, INSPIRE, Units) over STDIO
-python examples/mcp/heptapod_server_stdio.py --groups pdg,inspire,units
+# Serve lightweight tools (PDG, INSPIRE, NDA, Units) over STDIO
+python examples/mcp/heptapod_server_stdio.py --groups pdg,inspire,nda,units
+
+# Serve EDA study tools (symbolic calculations + NDA cross-checks)
+python examples/mcp/heptapod_server_stdio.py --groups eda_study
 
 # Or over HTTP for remote access
 python examples/mcp/heptapod_server_http.py --port 8765
@@ -322,7 +289,7 @@ claude mcp add --scope user heptapod -- \
   /path/to/envs/heptapod/bin/python "$(pwd)/examples/mcp/heptapod_server_stdio.py"
 ```
 
-For full setup instructions, scope options, and Codex integration, see [examples/mcp/README.md](examples/mcp/README.md).
+For full setup instructions, scope options, and Codex integration, see [examples/mcp/README.md](examples/mcp/README.md). For worked examples with transcripts, see [examples/eda/](examples/eda/) and [examples/nda/](examples/nda/).
 
 ---
 
@@ -458,15 +425,29 @@ If you use HEPTAPOD in your research, please cite:
 }
 ```
 
+If you use the NDA, FeynGraph, or EDA toolkits, please also cite:
+
+```bibtex
+@article{Menzo:2026diagrammatica,
+    author = {Menzo, Tony and Roman, Alexander and Fleming, George T. and Gleyzer, Sergei and Matchev, Konstantin T. and Mrenna, Stephen},
+    title = "{Agentic Diagrammatica: Towards Autonomous Symbolic Computation in High Energy Physics}",
+    eprint = "2603.26990",
+    archivePrefix = "arXiv",
+    primaryClass = "hep-ph",
+    reportNumber = "FERMILAB-PUB-26-0208-T",
+    month = "3",
+    year = "2026"
+}
+```
+
 ```bibtex
 @misc{roman2026orchestralaiframeworkagent,
-      title={Orchestral AI: A Framework for Agent Orchestration}, 
-      author={Alexander Roman and Jacob Roman},
-      year={2026},
-      eprint={2601.02577},
-      archivePrefix={arXiv},
-      primaryClass={cs.AI},
-      url={https://arxiv.org/abs/2601.02577}, 
+    author = {Roman, Alexander and Roman, Jacob},
+    title = "{Orchestral AI: A Framework for Agent Orchestration}",
+    eprint = "2601.02577",
+    archivePrefix = "arXiv",
+    primaryClass = "cs.AI",
+    year = "2026"
 }
 ```
 
@@ -491,7 +472,8 @@ This project is licensed under the GPL-3.0 license - see the [LICENSE](LICENSE) 
 **Project Links:**
 
 - Repository: [https://github.com/tonymenzo/heptapod](https://github.com/tonymenzo/heptapod)
-- Research Paper: [arXiv:2512.15867](https://arxiv.org/abs/2512.15867)
+- HEPTAPOD paper: [arXiv:2512.15867](https://arxiv.org/abs/2512.15867)
+- Diagrammatica paper: [arXiv:2603.26990](https://arxiv.org/abs/2603.26990)
 
 ---
 

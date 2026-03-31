@@ -1,0 +1,10 @@
+{
+  "symbolic": {
+    "simplified": "(mV*(Abs[gL]^2 + Abs[gR]^2))/(24*Pi)"
+  },
+  "latex": {
+    "simplified": "\\frac{m_V \\left(| g_L| ^2+| g_R| ^2\\right)}{24 \\pi }"
+  },
+  "status": "complete",
+  "script_path": "/path/to/redacted"
+}

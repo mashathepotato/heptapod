@@ -1,0 +1,10 @@
+{
+  "symbolic": {
+    "simplified": "(Sqrt[-4*mf^2 + mV^2]*(gA*(-4*mf^2 + mV^2)*Conjugate[gA] + gV*(2*mf^2 + mV^2)*Conjugate[gV]))/(12*mV^2*Pi)"
+  },
+  "latex": {
+    "simplified": "\\frac{\\sqrt{m_V^2-4 m_f^2} \\left(g_A g_A^* \\left(m_V^2-4 m_f^2\\right)+g_V g_V^* \\left(2 m_f^2+m_V^2\\right)\\right)}{12 \\pi  m_V^2}"
+  },
+  "status": "complete",
+  "script_path": "/path/to/redacted"
+}

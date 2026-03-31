@@ -348,46 +348,64 @@ class PDGInterface:
         """
         Search for particles matching a query.
 
-        This performs a simple substring search on particle names.
+        Matches against PdgParticleList descriptions (e.g. "mu", "W", "pi+-")
+        and also resolves aliases (e.g. "muon" → "mu-", "electron" → "e-")
+        so that common names work.
 
         Args:
-            query: Search string
+            query: Search string (particle name or common alias)
             limit: Maximum results to return
 
         Returns:
             List of matching particle info dicts
         """
         results = []
+        seen_names: set = set()
         query_lower = query.lower()
 
+        # Resolve alias so common names like "muon" match "mu"
+        resolved = resolve_alias(query)
+        resolved_lower = resolved.lower()
+        search_terms = {query_lower}
+        if resolved_lower != query_lower:
+            search_terms.add(resolved_lower)
+
+        # If the alias resolved to an exact PDG name, look it up directly
+        if resolved_lower != query_lower:
+            try:
+                p = self.api.get_particle_by_name(resolved)
+                entry = {"name": p.name, "mcid": p.mcid, "mass_gev": p.mass}
+                results.append(entry)
+                seen_names.add(p.name)
+            except Exception:
+                pass
+
+        # Search PdgParticleList descriptions for substring matches
         try:
-            for particle_list in self.api.get_particles():
+            for plist in self.api.get_particles():
                 if len(results) >= limit:
                     break
-
-                # get_particles returns PdgParticleList, need to iterate
-                try:
-                    for p in particle_list.particles:
-                        if query_lower in p.name.lower():
-                            results.append({
-                                "name": p.name,
-                                "mcid": p.mcid,
-                                "mass_gev": p.mass
-                            })
-                            if len(results) >= limit:
-                                break
-                except Exception:
-                    # Try accessing as single particle
+                desc = (plist.description or "").lower()
+                if any(term in desc for term in search_terms):
+                    # Try to get the actual particle data
                     try:
-                        p = particle_list.particle
-                        if query_lower in p.name.lower():
+                        p = self.api.get_particle_by_name(plist.description)
+                        if p.name not in seen_names:
                             results.append({
                                 "name": p.name,
                                 "mcid": p.mcid,
-                                "mass_gev": p.mass
+                                "mass_gev": p.mass,
                             })
+                            seen_names.add(p.name)
                     except Exception:
-                        pass
+                        # Some descriptions are categories, not particle names
+                        if plist.description not in seen_names:
+                            results.append({
+                                "name": plist.description,
+                                "pdgid": plist.pdgid,
+                                "mass_gev": None,
+                            })
+                            seen_names.add(plist.description)
         except Exception:
             pass
 

@@ -1,0 +1,10 @@
+{
+  "symbolic": {
+    "simplified": "(Sqrt[-4*mf^2 + mS^2]*((-2*(gL + gR)*mf^2 + gL*mS^2)*Conjugate[gL] + (-2*(gL + gR)*mf^2 + gR*mS^2)*Conjugate[gR]))/(16*mS^2*Pi)"
+  },
+  "latex": {
+    "simplified": "\\frac{\\sqrt{m_S^2-4 m_f^2} \\left(g_L^* \\left(g_L m_S^2-2 m_f^2 (g_L+g_R)\\right)+g_R^* \\left(g_R m_S^2-2 m_f^2 (g_L+g_R)\\right)\\right)}{16 \\pi  m_S^2}"
+  },
+  "status": "complete",
+  "script_path": "/path/to/redacted"
+}

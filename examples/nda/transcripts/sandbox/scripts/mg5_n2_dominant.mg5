@@ -1,0 +1,10 @@
+set automatic_html_opening False
+import model sm-lepton_masses
+
+generate mu+ > e+ e+ e+ e- e- ve vm~ QED<=6
+
+output ./MG5_mu_7body_QED6
+launch
+
+set nevents 0
+set lhaid 0

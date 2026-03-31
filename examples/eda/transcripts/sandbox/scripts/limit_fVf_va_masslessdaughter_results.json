@@ -1,0 +1,10 @@
+{
+  "symbolic": {
+    "simplified": "((mf1^2 - mV^2)^2*(mf1^2 + 2*mV^2)*(gA*Conjugate[gA] + gV*Conjugate[gV]))/(16*mf1^3*mV^2*Pi)"
+  },
+  "latex": {
+    "simplified": "\\frac{\\left(m_{f_1}^2-m_V^2\\right)^2 \\left(m_{f_1}^2+2 m_V^2\\right) \\left(g_A g_A^*+g_V g_V^*\\right)}{16 \\pi  m_{f_1}^3 m_V^2}"
+  },
+  "status": "complete",
+  "script_path": "/path/to/redacted"
+}

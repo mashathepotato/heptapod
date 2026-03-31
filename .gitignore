@@ -1,3 +1,10 @@
 # Python cache files
 *.pyc
 __pycache__/
+
+# Deprecated tools
+depr/
+
+# Example sandbox directories
+examples/advanced/**/sandbox_notebook/
+examples/advanced/**/demo_sandbox/
