@@ -34,7 +34,7 @@ claude
 Or register the MCP server globally:
 
 ```bash
-claude mcp add heptapod-nda -- /path/to/python mcp/heptapod_server_stdio.py --groups nda_study
+claude mcp add heptapod-nda -- /path/to/python mcp/heptapod_server_stdio.py --groups nda_toolkit
 ```
 
 #### OpenAI Codex
@@ -47,22 +47,22 @@ mkdir my_nda_session && cd my_nda_session
 cp /path/to/heptapod/prompts/examples/nda/system/nda_system_prompt.md AGENTS.md
 
 # Register MCP server via Codex CLI
-codex mcp add heptapod-nda -- /path/to/python mcp/heptapod_server_stdio.py --groups nda_study
+codex mcp add heptapod-nda -- /path/to/python mcp/heptapod_server_stdio.py --groups nda_toolkit
 ```
 
 #### Orchestral
 
 ```python
 from mcp.heptapod_tools import get_tools
-tools = get_tools("nda_study")
+tools = get_tools("nda_toolkit")
 
 # Load system prompt
 system_prompt = open("prompts/examples/nda/system/nda_system_prompt.md").read()
 ```
 
-## Tool group: `nda_study`
+## Tool group: `nda_toolkit`
 
-The `nda_study` group bundles NDA estimation with diagram enumeration, PDG
+The `nda_toolkit` group bundles NDA estimation with diagram enumeration, PDG
 reference values, and optional MadGraph cross-checks:
 
 | Tool | Purpose |
