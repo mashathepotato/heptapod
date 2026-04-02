@@ -199,7 +199,7 @@ def _make_eda_tools(base_dir: str) -> list:
 # Task-specific groups that combine tools from multiple modules.
 
 
-def _make_eda_study_tools(base_dir: str) -> list:
+def _make_eda_toolkit_tools(base_dir: str) -> list:
     """EDA study toolkit — symbolic path via FeynCalc + NDA cross-checks.
 
     Designed for exact tree-level calculations via FeynCalc,
@@ -231,7 +231,7 @@ def _make_eda_study_tools(base_dir: str) -> list:
     ]
 
 
-def _make_nda_study_tools(base_dir: str) -> list:
+def _make_nda_toolkit_tools(base_dir: str) -> list:
     """NDA study toolkit — NDA + PDG + MadGraph cross-check.
 
     Designed for multi-channel decay studies: enumerate diagrams, estimate
@@ -272,8 +272,8 @@ TOOL_GROUPS: dict[str, Callable[[str], list]] = {
     "event_gen":        _make_event_gen_tools,
     "feynrules":        _make_feynrules_tools,
     "eda":              _make_eda_tools,
-    "nda_study":              _make_nda_study_tools,
-    "eda_study":              _make_eda_study_tools,
+    "nda_toolkit":              _make_nda_toolkit_tools,
+    "eda_toolkit":              _make_eda_toolkit_tools,
 }
 
 # Groups that work out of the box (no external software)

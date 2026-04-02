@@ -33,7 +33,7 @@ claude
 Or register the MCP server globally:
 
 ```bash
-claude mcp add heptapod-eda -- /path/to/python mcp/heptapod_server_stdio.py --groups eda_study
+claude mcp add heptapod-eda -- /path/to/python mcp/heptapod_server_stdio.py --groups eda_toolkit
 ```
 
 #### OpenAI Codex
@@ -46,22 +46,22 @@ mkdir my_eda_session && cd my_eda_session
 cp /path/to/heptapod/prompts/examples/eda/system/eda_system_prompt.md AGENTS.md
 
 # Register MCP server via Codex CLI
-codex mcp add heptapod-eda -- /path/to/python mcp/heptapod_server_stdio.py --groups eda_study
+codex mcp add heptapod-eda -- /path/to/python mcp/heptapod_server_stdio.py --groups eda_toolkit
 ```
 
 #### Orchestral
 
 ```python
 from mcp.heptapod_tools import get_tools
-tools = get_tools("eda_study")
+tools = get_tools("eda_toolkit")
 
 # Load system prompt
 system_prompt = open("prompts/examples/eda/system/eda_system_prompt.md").read()
 ```
 
-## Tool group: `eda_study`
+## Tool group: `eda_toolkit`
 
-The `eda_study` group bundles the EDA symbolic tools with NDA cross-checks
+The `eda_toolkit` group bundles the EDA symbolic tools with NDA cross-checks
 and PDG reference values:
 
 | Tool | Purpose |

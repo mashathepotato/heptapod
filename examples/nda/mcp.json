@@ -4,7 +4,7 @@
       "command": "/path/to/python",
       "args": [
         "mcp/heptapod_server_stdio.py",
-        "--groups", "nda_study"
+        "--groups", "nda_toolkit"
       ]
     }
   }
