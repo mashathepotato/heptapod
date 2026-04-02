@@ -4,11 +4,7 @@ Expose HEPTAPOD's particle physics tools via the [Model Context Protocol (MCP)](
 
 ## Prerequisites
 
-```bash
-pip install mcp
-```
-
-The `orchestral-ai` package must also be installed (or on `sys.path` via the repo root).
+Both the `mcp` and `orchestral-ai` packages are required (included in `requirements.txt`).
 
 ## Quick Start
 
@@ -36,22 +32,48 @@ python mcp/heptapod_server_http.py
 python mcp/heptapod_server_http.py --host 0.0.0.0 --port 9000 --groups pdg,inspire
 ```
 
-## Tool Groups
+## Toolkits
 
-Tools are organized into named groups. Use `--groups` to select which ones to serve. If omitted, all groups that can be loaded are served.
+Tools are organized into named toolkits. Use `--groups` to select which ones to serve. If omitted, all toolkits that can be loaded are served.
 
-| Group | Tools | Requires |
-|-------|-------|----------|
+| Toolkit | Tools | Requires |
+|---------|-------|----------|
 | `pdg` | PDG database queries (mass, width, lifetime, branching fractions) | Internet |
 | `inspire` | INSPIRE HEP literature search, citations, BibTeX, reading list | Internet |
-| `nda` | QuickNDA decay width estimates, diagram enumeration, visualization | — |
+| `nda` | NDA decay width estimates, diagram enumeration, visualization | — |
 | `units` | Natural units and metric prefix conversions | — |
 | `analysis` | Kinematics, reconstruction, LHE/JSONL/NumPy conversion | — |
 | `event_gen` | MadGraph, Pythia, Sherpa event generation | MG5, Pythia, Sherpa |
 | `feynrules` | FeynRules `.fr` to UFO conversion | Mathematica |
-| `eda` | Exact Diagrammatic Analysis via FeynCalc | Mathematica |
+| `eda` | FeynCalc codegen, Wolfram runner, simplification, Python conversion | Mathematica |
 
-**Lightweight groups** (`pdg`, `inspire`, `nda`, `units`) work out of the box with no external software. The remaining groups are skipped automatically if their dependencies are not installed.
+**Composite toolkits** combine tools from multiple modules for specific workflows:
+
+| Toolkit | Contents | Requires |
+|---------|----------|----------|
+| `nda_toolkit` | NDA + FeynGraph + PDG + MadGraph | MadGraph (optional) |
+| `eda_toolkit` | EDA + NDA + PDG | Mathematica |
+
+**Lightweight toolkits** (`pdg`, `inspire`, `nda`, `units`) work out of the box with no external software. The remaining toolkits are skipped automatically if their dependencies are not installed.
+
+### Creating Custom Toolkits
+
+Define a new toolkit by adding a factory function in `heptapod_tools.py` and registering it in `TOOL_GROUPS`:
+
+```python
+def _make_my_toolkit(base_dir: str) -> list:
+    """My custom toolkit — description."""
+    from tools.pdg import PDGDatabaseTool
+    from tools.nda import EstimateDecayWidthNDATool
+    return [
+        PDGDatabaseTool(base_directory=base_dir),
+        EstimateDecayWidthNDATool(base_directory=base_dir),
+    ]
+
+TOOL_GROUPS["my_toolkit"] = _make_my_toolkit
+```
+
+Then serve it: `python mcp/heptapod_server_stdio.py --groups my_toolkit`
 
 ## CLI Options
 
@@ -297,7 +319,7 @@ codex mcp remove heptapod
 You can also use the tool registry directly in Python without running a server:
 
 ```python
-from heptapod_tools import get_tools, get_available_groups
+from mcp.heptapod_tools import get_tools, get_available_groups
 
 # See which groups can be loaded in the current environment
 print(get_available_groups())
