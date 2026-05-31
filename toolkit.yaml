@@ -9,23 +9,27 @@ keywords: []
 config:
   - name: base_directory
     description: Working directory used by tools for output, sandboxing,
-      and findings. Most heptapod tools resolve relative paths against this root.
-    type: string
+      and findings. Most heptapod tools resolve relative paths against this
+      root. Defaults to the directory the harness (Claude Code, Codex,
+      Orchestral, ...) launched `tb serve` from; pin per-project with
+      `tb config set heptapod base_directory <path> --project`.
+    type: path
     required: true
+    default: ${CWD}
   - name: mg5_path
     description: Absolute path to the MG5_aMC install dir containing bin/mg5_aMC.
       Required for the event_gen bundle's MadGraph tools.
-    type: string
+    type: path
     required: false
   - name: feynrules_path
     description: Path to the FeynRules installation root. Required for the
       feynrules bundle.
-    type: string
+    type: path
     required: false
   - name: wolframscript_path
     description: Command or absolute path to wolframscript. Required for
       the feynrules bundle and eda bundle's Wolfram-backed tools.
-    type: string
+    type: path
     required: false
   - name: cache_enabled
     description: Enable INSPIRE query caching.
