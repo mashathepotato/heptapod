@@ -1,5 +1,5 @@
 name: heptapod
-version: 2.1.0
+version: 2.2.0
 description: An open-source agentic toolkit for high-energy physics.
 author: Tony Menzo
 license: GPL-3.0
@@ -18,7 +18,7 @@ config:
     default: ${CWD}
   - name: mg5_path
     description: Absolute path to the MG5_aMC install dir containing bin/mg5_aMC.
-      Required for the event_gen bundle's MadGraph tools.
+      Required for the mg5 bundle.
     type: path
     required: false
   - name: feynrules_path
@@ -28,7 +28,7 @@ config:
     required: false
   - name: wolframscript_path
     description: Command or absolute path to wolframscript. Required for
-      the feynrules bundle and eda bundle's Wolfram-backed tools.
+      the feynrules bundle and the eda bundle's Wolfram-backed tools.
     type: path
     required: false
   - name: cache_enabled
@@ -36,14 +36,43 @@ config:
     type: boolean
     default: false
 bundles:
-  pdg: {}
-  inspire: {}
-  nda: {}
-  units: {}
-  analysis: {}
-  event_gen: {}
-  feynrules: {}
-  eda: {}
+  # ── lightweight / always-available ───────────────────────────────
+  units: {}                              # pure python; nothing to install
+  inspire: {}                            # uses requests (always-installed base)
+  pdg:
+    deps: [pdg>=0.2.0]                   # PDG database API
+
+  # ── analysis stack ───────────────────────────────────────────────
+  analysis:
+    deps: [numpy>=2.3.5, tqdm>=4.67.0, pylhe>=1.0.2]
+
+  # ── event generation ─────────────────────────────────────────────
+  # Pythia + Sherpa share heavy MC dependencies.
+  event_gen:
+    deps:
+      - pythia8mc>=8.316.0
+      - sherpa-mc>=3.0.3b1
+      - pylhe>=1.0.2
+      - numpy>=2.3.5
+      - tqdm>=4.67.0
+  # MadGraph is split out: it needs a separate external install (mg5_path)
+  # and the Python wrapper has no heavy pip deps of its own (it subprocess
+  # invokes `bin/mg5_aMC`). Gated on mg5_path being configured.
+  mg5:
+    requires: [mg5_path]
+
+  # ── diagram analysis (NDA) ───────────────────────────────────────
+  nda:
+    deps: [feyngraph]                    # for EnumerateDiagramsTool, VisualizeDiagramsTool
+
+  # ── exact symbolic amplitudes via Mathematica/FeynCalc ───────────
+  eda:
+    requires: [wolframscript_path]
+    deps: [sympy>=1.14.0]
+
+  # ── BSM model UFO generation via Mathematica/FeynRules ───────────
+  feynrules:
+    requires: [feynrules_path, wolframscript_path]
 tools:
   - module: tools.analysis.conversions
     name: EventJSONLToNumpyTool
@@ -57,7 +86,7 @@ tools:
     name: LHEToJSONLTool
     description: Convert a MadGraph LHE file into the JSONL (evtjsonl-1.0)
       schema.
-    bundle: analysis
+    bundle: [analysis, event_gen]
   - module: tools.analysis.kinematics
     name: ApplyCutsTool
     description: Apply kinematic cuts to particles from numpy array or JSONL.
@@ -198,7 +227,7 @@ tools:
     name: MadGraphFromRunCardTool
     description: Run MadGraph5_aMC@NLO to generate parton-level events given a
       .mg5 run card template.
-    bundle: event_gen
+    bundle: mg5
   - module: tools.nda.branching_ratio_tool
     name: EstimateBranchingRatioNDATool
     description: Estimates branching ratios using NDA for multiple diagram

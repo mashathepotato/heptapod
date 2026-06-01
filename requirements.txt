@@ -1,36 +1,21 @@
-# HEPTAPOD Requirements
+# HEPTAPOD always-installed base requirements.
 # Install with: pip install -r requirements.txt
+#
+# Bundle-specific deps live in toolkit.yaml under each bundle's `deps:`
+# (pip-installed only when the bundle is selected, e.g.
+# `tb install heptapod[inspire,pdg]`). See toolkit.yaml for the per-bundle
+# breakdown.
 
-# Core Dependencies
-# ================
-
-# Orchestral AI Framework (LLM orchestration)
-# 1.5+ ships a lean dependency tree; install whichever LLM SDK you actually
-# use (openai is pinned below; add anthropic / groq / mistralai / google-genai
-# yourself if you switch providers).
+# Orchestral framework — every heptapod tool subclasses BaseTool and uses
+# RuntimeField / StateField; the toolbase serve host needs this to be
+# import-able before any per-bundle tool module loads.
 orchestral-ai>=1.5.0
 
-# LLM Provider SDKs
-openai>=2.13.0           # GPT API (used via orchestral.llm.GPT)
-ollama>=0.6.1            # Local models (used via orchestral.llm.Ollama)
-
-# Scientific Computing
-numpy>=2.3.5
-
-# Physics-Specific Packages
-# ==========================
-pythia8mc>=8.316.0       # Pythia8 Python bindings (requires Python 3.12 or 3.13, NOT 3.14+)
-sherpa-mc>=3.0.3b1       # Sherpa event generator (requires Python 3.12 or higher)
-pylhe>=1.0.2             # LHE file parsing
-particle>=0.26.0         # Particle data and PDG IDs
-pdg>=0.2.0               # PDG database API (particle properties, branching fractions)
-feyngraph                # Feynman diagram enumeration
-
-# Utilities
-python-dotenv>=1.2.1     # Environment variable management
-requests>=2.32.0         # HTTP requests (used by tools/inspire/inspire_interface)
-sympy>=1.14.0            # UFO conversion
-tqdm>=4.67.0             # Progress bars (used by tools/analysis/conversions, pythia, sherpa)
+# HTTP — tools/inspire/inspire_interface.py imports `requests` at module
+# top level (and tools/inspire/__init__.py eagerly loads the interface).
+# Kept in the always-installed base so the inspire bundle stays a freebie
+# even on lean subset installs.
+requests>=2.32.0
 
 # Development Tools (Optional)
 # =============================
