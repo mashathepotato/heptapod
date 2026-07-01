@@ -57,9 +57,13 @@ bundles:
       - tqdm>=4.67.0
   # MadGraph is split out: it needs a separate external install (mg5_path)
   # and the Python wrapper has no heavy pip deps of its own (it subprocess
-  # invokes `bin/mg5_aMC`). Gated on mg5_path being configured.
+  # invokes `bin/mg5_aMC`). Gated on mg5_path being configured. `six` is
+  # declared here because mg5_aMC's own python helpers import it at runtime,
+  # and MG5 runs under this toolkit's venv interpreter — without it the
+  # generation aborts ("madgraph requires the six module").
   mg5:
     requires: [mg5_path]
+    deps: [six]
 
   # ── diagram analysis (NDA) ───────────────────────────────────────
   nda:
