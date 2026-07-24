@@ -264,9 +264,27 @@ def _find_all_lhe_files(events_dir: str, run_dirs: list) -> dict:
 
     return lhe_files
 
+def _normalize_masses(masses) -> dict:
+    """Coerce a {pdg: GeV} mapping (or [[pdg, gev], ...]) into {int: float}.
+
+    Junk entries (non-numeric ids/values) are dropped rather than raising, so a
+    caller's loosely-typed spectrum still yields the well-formed pairs.
+    """
+    out = {}
+    items = masses.items() if isinstance(masses, dict) else (
+        masses if isinstance(masses, (list, tuple)) else [])
+    for pair in items:
+        try:
+            k, v = pair
+            out[int(k)] = float(v)
+        except (TypeError, ValueError):
+            continue
+    return out
+
+
 def _edit_mg5_card(card_text: str, *, ufo_path: Optional[str] = None,
                    output_name: Optional[str] = None, nevents: Optional[int] = None,
-                   seed: Optional[int] = None) -> str:
+                   seed: Optional[int] = None, masses: Optional[dict] = None) -> str:
     """
     Edit MG5 command card by replacing specific lines.
 
@@ -276,10 +294,18 @@ def _edit_mg5_card(card_text: str, *, ufo_path: Optional[str] = None,
         output_name: If provided, replaces the 'output' line
         nevents: If provided, replaces the 'set nevents' line
         seed: If provided, replaces the 'set iseed' line
+        masses: If provided, a {pdg_id: mass_gev} mapping injected as
+            'set mass <pdg> <gev>' in the run-card region (after 'launch'),
+            replacing any existing 'set mass <pdg>' for the same id. A
+            structured spectrum channel so benchmark masses survive card
+            regeneration instead of being dropped as free text.
 
     Returns:
         Modified card text
     """
+    mass_map = _normalize_masses(masses) if masses else {}
+    replaced_pdgs = set()
+
     lines = card_text.splitlines()
     output_lines = []
 
@@ -306,8 +332,38 @@ def _edit_mg5_card(card_text: str, *, ufo_path: Optional[str] = None,
             output_lines.append(f"set iseed {seed}")
             continue
 
+        # Replace an existing 'set mass <pdg>' for a requested id (idempotent),
+        # so re-editing a card doesn't stack duplicate spectrum lines.
+        if mass_map and stripped.startswith("set mass "):
+            parts = stripped.split()
+            if len(parts) >= 3 and parts[2].lstrip("-").isdigit():
+                pdg = int(parts[2])
+                if pdg in mass_map:
+                    output_lines.append(f"set mass {pdg} {mass_map[pdg]:g}")
+                    replaced_pdgs.add(pdg)
+                    continue
+
         # Keep original line
         output_lines.append(line)
+
+    # Inject any not-yet-present masses into the run-card region, right after
+    # 'launch' (where 'set' commands configure the run) so a benchmark spectrum
+    # is applied robustly rather than left as free text.
+    remaining = [(pdg, gev) for pdg, gev in mass_map.items()
+                 if pdg not in replaced_pdgs]
+    if remaining:
+        injected_lines = []
+        did_inject = False
+        for line in output_lines:
+            injected_lines.append(line)
+            if not did_inject and line.strip().startswith("launch"):
+                for pdg, gev in remaining:
+                    injected_lines.append(f"set mass {pdg} {gev:g}")
+                did_inject = True
+        if not did_inject:  # no 'launch' line — append at the end
+            for pdg, gev in remaining:
+                injected_lines.append(f"set mass {pdg} {gev:g}")
+        output_lines = injected_lines
 
     result = "\n".join(output_lines)
 
