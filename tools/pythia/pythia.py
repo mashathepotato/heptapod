@@ -302,21 +302,29 @@ class PythiaFromRunCardTool(BaseTool):
 
         # Initialize Pythia.
         try:
-            pythia = pythia8.Pythia("", printBanner=False)
-            # Suppress all Pythia output to prevent interference with tqdm
-            pythia.readString("Print:quiet = on")
-            pythia.readString("Init:showProcesses = off")
-            pythia.readString("Init:showMultipartonInteractions = off")
-            pythia.readString("Init:showChangedSettings = off")
-            pythia.readString("Init:showChangedParticleData = off")
-            pythia.readString("Next:numberShowInfo = 0")
-            pythia.readString("Next:numberShowProcess = 0")
-            pythia.readString("Next:numberShowEvent = 0")
-            if self.seed is not None:
-                pythia.readString("Random:setSeed = on")
-                pythia.readString(f"Random:seed = {int(self.seed)}")
-            pythia.readFile(str(cmnd_dst))
-            if not pythia.init():
+            # Pythia8 is C++ and writes settings/init errors straight to
+            # stdout/stderr. Under toolbase's MCP stdio transport, stdout IS the
+            # JSON-RPC channel, so any leak corrupts it ("Failed to parse
+            # JSONRPC message from server"). `Print:quiet` only suppresses
+            # normal logging, not hard errors/aborts (e.g. an xmldoc version
+            # mismatch), so silence the fds around every Pythia C++ call -- the
+            # same guard JetClusterSlowJet already uses via FdSilence.
+            with FdSilence(STDOUT, STDERR):
+                pythia = pythia8.Pythia("", printBanner=False)
+                pythia.readString("Print:quiet = on")
+                pythia.readString("Init:showProcesses = off")
+                pythia.readString("Init:showMultipartonInteractions = off")
+                pythia.readString("Init:showChangedSettings = off")
+                pythia.readString("Init:showChangedParticleData = off")
+                pythia.readString("Next:numberShowInfo = 0")
+                pythia.readString("Next:numberShowProcess = 0")
+                pythia.readString("Next:numberShowEvent = 0")
+                if self.seed is not None:
+                    pythia.readString("Random:setSeed = on")
+                    pythia.readString(f"Random:seed = {int(self.seed)}")
+                pythia.readFile(str(cmnd_dst))
+                init_ok = pythia.init()
+            if not init_ok:
                 return self.format_error(
                     error="Pythia Init Failed",
                     reason="Initialization returned false",
@@ -345,8 +353,11 @@ class PythiaFromRunCardTool(BaseTool):
                 "full_history": bool(self.full_history),
             }
 
-            # Use larger buffer (256KB) for better I/O performance
-            with open(events_path, "w", encoding="utf-8", buffering=262144) as fp:
+            # Use larger buffer (256KB) for better I/O performance. Silence the
+            # fds across generation too: pythia.next() (and any per-event Pythia
+            # warnings) would otherwise reach stdout and corrupt the transport.
+            with open(events_path, "w", encoding="utf-8", buffering=262144) as fp, \
+                    FdSilence(STDOUT, STDERR):
                 for ev_id in tqdm(range(int(self.n_events)), desc="Generating events", unit="evt", **TQDM_CONFIG):
                     if not pythia.next():
                         failed += 1
@@ -426,6 +437,30 @@ class PythiaFromRunCardTool(BaseTool):
 # ..................................................................... #
 
 import os
+import sys
+import ctypes
+
+
+def _flush_std_buffers():
+    """Flush Python- and C-level stdout/stderr buffers.
+
+    Native libraries (Pythia8's C++ iostreams, MG5 helpers, ...) buffer their
+    writes. Without flushing across an fd swap, that buffered output is emitted
+    *after* the fd is restored -- landing on the real stream instead of the
+    silenced one, which under toolbase's MCP stdio transport corrupts the
+    JSON-RPC channel. ``fflush(NULL)`` flushes every C stdio stream; C++ cout
+    is synced with stdio by default, so it is covered too.
+    """
+    for stream in (sys.stdout, sys.stderr):
+        try:
+            stream.flush()
+        except Exception:
+            pass
+    try:
+        ctypes.CDLL(None).fflush(None)
+    except Exception:
+        pass
+
 
 class FdSilence:
     def __init__(self, *fds):
@@ -434,6 +469,8 @@ class FdSilence:
         self.saved = []
 
     def __enter__(self):
+        # Flush pending legitimate output before redirecting so it isn't lost.
+        _flush_std_buffers()
         # open null once
         self.null = os.open(os.devnull, os.O_WRONLY)
         for fd in self.fds:
@@ -445,6 +482,9 @@ class FdSilence:
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
+        # Flush buffered library output to the still-silenced fd BEFORE
+        # restoring, so it is discarded rather than emitted onto the real fd.
+        _flush_std_buffers()
         # restore each fd
         for (fd, saved_fd) in self.saved:
             os.dup2(saved_fd, fd)
