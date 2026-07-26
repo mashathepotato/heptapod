@@ -35,21 +35,32 @@ HEPTAPOD is installed and served with **[toolbase](https://github.com/alexr314/t
 pip install toolbase        # provides the `tb` command
 ```
 
-Then install the toolkit (no registry account required):
+### Quick start
 
 ```bash
-# From a local clone (recommended for most users)
-git clone https://github.com/tonymenzo/heptapod.git
-tb install ./heptapod                 # whole toolkit
-tb install ./heptapod[analysis,mg5,eda]   # …or pick specific bundles
-tb install ./heptapod -e              # editable: live-link the source for development
+pip install toolbase                                                 # 1. the installer + MCP server
+git clone https://github.com/tonymenzo/heptapod.git && cd heptapod   # 2. get the toolkit
+tb install .                                                         # 3. install it (isolated env + deps)
+```
 
-# From an exported tarball (registry-free distribution — scp it anywhere)
-tb export ./heptapod                  # -> heptapod-<version>.tar.gz
+`tb install .` installs the toolkit straight from the clone — no registry account, nothing to download separately. Variations:
+
+```bash
+tb install .[analysis,mg5,eda]   # install only specific bundles
+tb install -e .                  # editable: live-link the source for development
+```
+
+Requires **Python 3.12 or 3.13**; toolbase auto-detects venv/conda and installs each selected bundle's dependencies. See [Bundles](#bundles) for what each pulls in and [External Dependencies](#external-dependencies) for software (Mathematica, MadGraph, …) that some bundles expect on the system.
+
+### Portable / versioned installs (no clone)
+
+For air-gapped machines, servers, or pinning a specific version, install directly from a packaged tarball on the [Releases](https://github.com/tonymenzo/heptapod/releases) page — no clone or registry needed:
+
+```bash
 tb install heptapod-<version>.tar.gz
 ```
 
-`tb install` requires **Python 3.12 or 3.13**; it auto-detects venv/conda and installs each selected bundle's dependencies for you. See [Bundles](#bundles) for what each one pulls in and [External Dependencies](#external-dependencies) for software (Mathematica, MadGraph, …) that some bundles expect on the system.
+These are self-contained snapshots produced with `tb export`; hand one to a collaborator or `scp` it to a server and `tb install` it as-is.
 
 ---
 
