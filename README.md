@@ -4,13 +4,13 @@
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Python](https://img.shields.io/badge/Python-3.12%20|%203.13-blue.svg)](https://www.python.org/downloads/)
 [![Framework](https://img.shields.io/badge/Framework-Orchestral--AI-green.svg)](https://orchestral-ai.com)
-[![Served via](https://img.shields.io/badge/Served%20via-toolbase-orange.svg)](https://toolbase-ai.com)
+[![Served via](https://img.shields.io/badge/Served%20via-toolbase-orange.svg)](https://github.com/alexr314/toolbase)
 
 ## Overview
 
 **HEPTAPOD** (High-Energy Physics Toolkit for Agentic Programming/Planning, Orchestration, and Deployment) is an open toolkit for **integrating LLM agents into high-energy physics workflows** — from symbolic amplitude calculations to Monte Carlo event generation and data analysis.
 
-HEPTAPOD provides structured tool interfaces that LLM agents can call directly, allowing researchers to express physics intent in natural language while the agent handles tool selection, execution, and error recovery. The tools are packaged as a **[toolbase](https://toolbase-ai.com) toolkit**: toolbase installs the toolkit into an isolated environment and **serves the tools over the [Model Context Protocol (MCP)](https://modelcontextprotocol.io)** to coding agents such as Claude Code and OpenAI Codex. The same tools are also usable directly through the [Orchestral AI](https://orchestral-ai.com) framework for building, testing, and benchmarking.
+HEPTAPOD provides structured tool interfaces that LLM agents can call directly, allowing researchers to express physics intent in natural language while the agent handles tool selection, execution, and error recovery. The tools are packaged as a **[toolbase](https://github.com/alexr314/toolbase) toolkit**: toolbase installs the toolkit into an isolated environment and **serves the tools over the [Model Context Protocol (MCP)](https://modelcontextprotocol.io)** to coding agents such as Claude Code and OpenAI Codex. The same tools are also usable directly through the [Orchestral AI](https://orchestral-ai.com) framework for building, testing, and benchmarking.
 
 Current capabilities include:
 
@@ -29,7 +29,7 @@ For a detailed discussion of the framework design and its application to Monte C
 
 ## Installation
 
-HEPTAPOD is installed and served with **[toolbase](https://toolbase-ai.com)** — a small CLI that creates an isolated environment per toolkit, installs each bundle's dependencies, and exposes the tools to your agent over MCP. Install it once:
+HEPTAPOD is installed and served with **[toolbase](https://github.com/alexr314/toolbase)**, which creates an isolated environment per toolkit, installs each bundle's dependencies, and exposes the tools to your agent over MCP. Install it once:
 
 ```bash
 pip install toolbase        # provides the `tb` command
