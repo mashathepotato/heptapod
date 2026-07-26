@@ -29,7 +29,7 @@ For a detailed discussion of the framework design and its application to Monte C
 
 ## Installation
 
-HEPTAPOD is installed and served with **[toolbase](https://github.com/alexr314/toolbase)**, which creates an isolated environment per toolkit, installs each bundle's dependencies, and exposes the tools to your agent over MCP. Install it once:
+HEPTAPOD is distributed as a toolkit for **[toolbase](https://github.com/alexr314/toolbase)** — the registry and CLI for building, sharing, installing, and serving AI-agent toolkits over MCP. For HEPTAPOD, toolbase provisions an isolated environment for the toolkit, resolves each bundle's dependencies and configuration, and serves the tools to your agent. Install it once:
 
 ```bash
 pip install toolbase        # provides the `tb` command
