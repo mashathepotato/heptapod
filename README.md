@@ -27,10 +27,14 @@ pip install toolbase        # provides the `tb` command
 ### Quick start
 
 ```bash
-pip install toolbase                                                 # 1. the installer + MCP server
-git clone https://github.com/tonymenzo/heptapod.git && cd heptapod   # 2. get the toolkit
-tb install .                                                         # 3. install it (isolated env + deps)
+pip install toolbase
+git clone https://github.com/tonymenzo/heptapod.git && cd heptapod
+tb install .
 ```
+
+1. **`pip install toolbase`** — the installer + MCP server (creates the isolated environment HEPTAPOD runs in)
+2. **`git clone … && cd heptapod`** — grab the toolkit
+3. **`tb install .`** — build the environment and install the tools
 
 `tb install .` installs the toolkit straight from the clone — no registry account, nothing to download separately. Variations:
 
