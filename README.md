@@ -10,7 +10,7 @@
 
 **HEPTAPOD** (High-Energy Physics Toolkit for Agentic Programming/Planning, Orchestration, and Deployment) is an open toolkit for **integrating LLM agents into high-energy physics workflows**, spanning symbolic amplitude calculations, Monte Carlo event generation, and data analysis.
 
-HEPTAPOD provides structured tool interfaces that LLM agents can call directly, allowing researchers to express physics intent in natural language while the agent handles tool selection, execution, and error recovery. The tools are packaged as a **[toolbase](https://github.com/alexr314/toolbase) toolkit**: toolbase installs the toolkit into an isolated environment and **serves the tools over the [Model Context Protocol (MCP)](https://modelcontextprotocol.io)** to coding agents such as Claude Code and OpenAI Codex. The same tools also run directly under [Orchestral](https://orchestral-ai.com), a provider-agnostic agent framework (Claude, GPT, Gemini, Groq, Ollama) well-suited to building, testing, and benchmarking new tools.
+HEPTAPOD provides structured tool interfaces that LLM agents can call directly, allowing researchers to express physics intent in natural language while the agent handles tool selection, execution, and error recovery. The tools are packaged as a **[toolbase](https://github.com/alexr314/toolbase) toolkit**: toolbase installs the toolkit into an isolated environment and **serves the tools over the [Model Context Protocol (MCP)](https://modelcontextprotocol.io)** to coding agents such as Claude Code and OpenAI Codex. The same tools also run directly under [Orchestral](https://orchestral-ai.com), a provider-agnostic agent framework (Claude, GPT, Gemini, Groq, Ollama) well-suited for tool development and API-based agent interaction.
 
 For a detailed discussion of the framework design and its application to Monte Carlo event generation, see [arXiv:2512.15867](https://arxiv.org/abs/2512.15867). The extension to agentic symbolic computation (Diagrammatica) and a general treatment of tool-constrained agentic programming are presented in [arXiv:2603.26990](https://arxiv.org/abs/2603.26990).
 
@@ -18,7 +18,7 @@ For a detailed discussion of the framework design and its application to Monte C
 
 ## Installation
 
-HEPTAPOD is distributed as a toolkit for **[toolbase](https://github.com/alexr314/toolbase)**, the registry and CLI for building, sharing, installing, and serving AI-agent toolkits over MCP. For HEPTAPOD, toolbase provisions an isolated environment for the toolkit, resolves each bundle's dependencies and configuration, and serves the tools to your agent. Install it once:
+HEPTAPOD is distributed as a toolkit via **[toolbase](https://github.com/alexr314/toolbase)**, a registry and CLI for building, sharing, installing, and serving agent toolkits over MCP. For HEPTAPOD, toolbase provisions an isolated environment for the toolkit, resolves each bundle's dependencies and configuration, and serves the tools to your agent. Install it once:
 
 ```bash
 pip install toolbase        # provides the `tb` command
@@ -27,27 +27,25 @@ pip install toolbase        # provides the `tb` command
 ### Quick start
 
 ```bash
-pip install toolbase
 git clone https://github.com/tonymenzo/heptapod.git && cd heptapod
 tb install .
 ```
 
-1. **`pip install toolbase`**: the installer and MCP server (creates the isolated environment HEPTAPOD runs in)
 2. **`git clone … && cd heptapod`**: grab the toolkit
-3. **`tb install .`**: build the environment and install the tools
+3. **`tb install .`**: build the environment and install the tools straight from the clone
 
-`tb install .` installs the toolkit straight from the clone, with no registry account and nothing to download separately. Variations:
+Useful variations:
 
 ```bash
 tb install .[analysis,mg5,nda]   # install only specific bundles
 tb install -e .                  # editable: live-link the source for development
 ```
 
-Requires **Python 3.12 or 3.13**; toolbase auto-detects venv/conda and installs each selected bundle's dependencies. See [Bundles](#bundles) for what each pulls in and [External Dependencies](#external-dependencies) for software (Mathematica, MadGraph, …) that some bundles expect on the system.
+Requires **Python 3.12 or 3.13**; toolbase auto-detects venv/conda and installs each selected bundle's dependencies. See [bundles](#bundles) for what each pulls in and [external Dependencies](#external-dependencies) for software (Mathematica, MadGraph, …) that some bundles expect on the system.
 
 ### Portable / versioned installs (no clone)
 
-For air-gapped machines, servers, or pinning a specific version, install directly from a packaged tarball on the [Releases](https://github.com/tonymenzo/heptapod/releases) page, with no clone or registry needed:
+For air-gapped machines, servers, or pinning a specific version, install directly from a packaged tarball on the [Releases](https://github.com/tonymenzo/heptapod/releases) page:
 
 ```bash
 tb install heptapod-<version>.tar.gz
@@ -73,13 +71,13 @@ tb connect claude-code -g             # …or user-level (~/.claude.json, every 
 tb connect codex                      # OpenAI Codex
 ```
 
-`tb connect` writes the MCP server entry; your agent then spawns `tb serve` automatically, so you don't run it by hand. In Claude Code, type `/mcp` to confirm the `toolbase` server is connected. Run `tb connect --harnesses` to see all supported harnesses and `tb connect --list` to see where toolbase is currently wired.
+`tb connect` writes the MCP server entry; your agent then spawns `tb serve` automatically, so you don't run it by hand. In Claude Code or Codex, type `/mcp` to confirm the `toolbase` server is connected. Run `tb connect --harnesses` to see all supported harnesses and `tb connect --list` to see where toolbase is currently wired.
 
 To load a system prompt, copy one into your working directory as `CLAUDE.md` (Claude Code) or `AGENTS.md` (Codex). Example system prompts for the EDA and NDA bundles are in `prompts/examples/`.
 
-### Orchestral AI (building / benchmarking tools)
+### Orchestral
 
-Orchestral is provider-agnostic and well-suited for developing and benchmarking new tools. Wire it up or run a demo:
+Orchestral is provider-agnostic and well-suited for developing new tools (natively supported by `toolbase`). Wire it up or run a demo (after configuring an API key, see [Configuration](#configuration)):
 
 ```bash
 tb connect orchestral                        # writes a runnable agent script
