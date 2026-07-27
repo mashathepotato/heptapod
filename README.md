@@ -10,18 +10,7 @@
 
 **HEPTAPOD** (High-Energy Physics Toolkit for Agentic Programming/Planning, Orchestration, and Deployment) is an open toolkit for **integrating LLM agents into high-energy physics workflows** — from symbolic amplitude calculations to Monte Carlo event generation and data analysis.
 
-HEPTAPOD provides structured tool interfaces that LLM agents can call directly, allowing researchers to express physics intent in natural language while the agent handles tool selection, execution, and error recovery. The tools are packaged as a **[toolbase](https://github.com/alexr314/toolbase) toolkit**: toolbase installs the toolkit into an isolated environment and **serves the tools over the [Model Context Protocol (MCP)](https://modelcontextprotocol.io)** to coding agents such as Claude Code and OpenAI Codex. The same tools are also usable directly through the [Orchestral AI](https://orchestral-ai.com) framework for building, testing, and benchmarking.
-
-Current capabilities include:
-
-- **Exact tree-level calculations** via automatic FeynCalc code generation (`eda` bundle)
-- **Order-of-magnitude rate estimates** via Naive Dimensional Analysis (`nda` bundle)
-- **Automatic Feynman diagram enumeration** and ranking (`nda` bundle / FeynGraph)
-- **Particle data**, **literature search**, and **unit conversions** (`pdg`, `inspire`, `units`)
-- **Monte Carlo event generation** with MadGraph, Pythia, and Sherpa (`mg5`, `event_gen`)
-- **Event analysis** — cutflows, kinematics, reconstruction, yield normalization (`analysis`)
-- **BSM spectrum setup** — benchmark-point parsing and decay-table construction (`bsm`)
-- **Reproducible, auditable execution traces** via run cards and structured outputs
+HEPTAPOD provides structured tool interfaces that LLM agents can call directly, allowing researchers to express physics intent in natural language while the agent handles tool selection, execution, and error recovery. The tools are packaged as a **[toolbase](https://github.com/alexr314/toolbase) toolkit**: toolbase installs the toolkit into an isolated environment and **serves the tools over the [Model Context Protocol (MCP)](https://modelcontextprotocol.io)** to coding agents such as Claude Code and OpenAI Codex. The same tools also run directly under [Orchestral](https://orchestral-ai.com) — a provider-agnostic agent framework (Claude, GPT, Gemini, Groq, Ollama) well-suited to building, testing, and benchmarking new tools.
 
 For a detailed discussion of the framework design and its application to Monte Carlo event generation, see [arXiv:2512.15867](https://arxiv.org/abs/2512.15867). The extension to agentic symbolic computation (Diagrammatica) and a general treatment of tool-constrained agentic programming are presented in [arXiv:2603.26990](https://arxiv.org/abs/2603.26990).
 
@@ -46,7 +35,7 @@ tb install .                                                         # 3. instal
 `tb install .` installs the toolkit straight from the clone — no registry account, nothing to download separately. Variations:
 
 ```bash
-tb install .[analysis,mg5,eda]   # install only specific bundles
+tb install .[analysis,mg5,nda]   # install only specific bundles
 tb install -e .                  # editable: live-link the source for development
 ```
 
@@ -72,7 +61,8 @@ toolbase serves the toolkit's tools to any MCP-compatible client. The typical fl
 
 ```bash
 tb activate heptapod                  # add the whole toolkit to what gets served
-tb activate heptapod/eda              # …or just one bundle
+tb activate heptapod/nda              # …or just one bundle (nda auto-installs, no external deps)
+tb list                               # show installed toolkits and what's active
 
 tb connect claude-code                # wire into Claude Code (this project's .mcp.json)
 tb connect claude-code -g             # …or user-level (~/.claude.json, every session)
@@ -104,6 +94,17 @@ Complete conversation transcripts with agent outputs are available for the EDA a
 ---
 
 ## Bundles
+
+HEPTAPOD's capabilities span:
+
+- **Exact tree-level calculations** via automatic FeynCalc code generation (`eda`)
+- **Order-of-magnitude rate estimates** via Naive Dimensional Analysis (`nda`)
+- **Automatic Feynman diagram enumeration** and ranking (`nda` / FeynGraph)
+- **Particle data**, **literature search**, and **unit conversions** (`pdg`, `inspire`, `units`)
+- **Monte Carlo event generation** with MadGraph, Pythia, and Sherpa (`mg5`, `event_gen`)
+- **Event analysis** — cutflows, kinematics, reconstruction, yield normalization (`analysis`)
+- **BSM spectrum setup** — benchmark-point parsing and decay-table construction (`bsm`)
+- **Reproducible, auditable execution traces** via run cards and structured outputs
 
 Tools are grouped into **bundles** — install only what a workflow needs. Bundles with a `requires:` key are gated on config (see [Configuration](#configuration)); their tools stay hidden until it's set.
 
@@ -270,6 +271,8 @@ If you use the NDA, FeynGraph, or EDA bundles, please also cite:
     year = "2026"
 }
 ```
+
+If you build on the [Orchestral](https://orchestral-ai.com) framework — for example via the demos in `examples/` — please also cite:
 
 ```bibtex
 @misc{roman2026orchestralaiframeworkagent,
