@@ -18,7 +18,7 @@ For a detailed discussion of the framework design and its application to Monte C
 
 ## Installation
 
-HEPTAPOD is distributed as a toolkit via **[toolbase](https://github.com/alexr314/toolbase)**, a registry and CLI for building, sharing, installing, and serving agent toolkits over MCP. For HEPTAPOD, toolbase provisions an isolated environment for the toolkit, resolves each bundle's dependencies and configuration, and serves the tools to your agent. Install it once:
+HEPTAPOD is distributed as a toolkit via **[toolbase](https://github.com/alexr314/toolbase)**, a registry and CLI for building, sharing, installing, and serving agent toolkits over MCP. For HEPTAPOD, toolbase provisions an isolated environment for the toolkit, resolves each bundle's dependencies and configuration, and serves the tools to your agent. Install it once in your preferred Python environment
 
 ```bash
 pip install toolbase        # provides the `tb` command
@@ -71,13 +71,13 @@ tb connect claude-code -g             # …or user-level (~/.claude.json, every 
 tb connect codex                      # OpenAI Codex
 ```
 
-`tb connect` writes the MCP server entry; your agent then spawns `tb serve` automatically, so you don't run it by hand. In Claude Code or Codex, type `/mcp` to confirm the `toolbase` server is connected. Run `tb connect --harnesses` to see all supported harnesses and `tb connect --list` to see where toolbase is currently wired.
+`tb connect` writes the MCP server entry; your agent then spawns `tb serve` automatically upon launch. In Claude Code or Codex, type `/mcp` to confirm the `toolbase` server is connected. Run `tb connect --harnesses` to see all supported harnesses and `tb connect --list` to see where toolbase is currently wired.
 
 To load a system prompt, copy one into your working directory as `CLAUDE.md` (Claude Code) or `AGENTS.md` (Codex). Example system prompts for the EDA and NDA bundles are in `prompts/examples/`.
 
 ### Orchestral
 
-Orchestral is provider-agnostic and well-suited for developing new tools (natively supported by `toolbase`). Wire it up or run a demo (after configuring an API key, see [Configuration](#configuration)):
+All tools inherit from Orchestral's `BaseTool` class. All such instances are natively supported by `toolbase`. Wire it up or run a demo (after configuring an API key, see [Configuration](#configuration)):
 
 ```bash
 tb connect orchestral                        # writes a runnable agent script
