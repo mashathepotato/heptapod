@@ -14,6 +14,18 @@ depr/
 examples/advanced/**/sandbox_notebook/
 examples/advanced/**/demo_sandbox/
 
+# Sandboxes written by running the demos (create_new_sandbox numbers them).
+# Digit-suffixed on purpose: examples/*/transcripts/sandbox/ is the committed
+# output of the worked examples and must stay tracked.
+examples/**/sandbox[0-9][0-9][0-9]/
+examples/**/sandbox_[0-9][0-9][0-9]/
+
+# The agent script `tb connect orchestral` writes, and the scratch dir it
+# works in. Regenerate with `tb connect orchestral` rather than committing;
+# the checked-in demos under examples/ are the reference wiring.
+.toolbase/agent.py
+/sandbox/
+
 # LaTeX build artifacts
 *.aux
 *.log
@@ -27,3 +39,11 @@ examples/advanced/**/demo_sandbox/
 
 # Local Claude Code settings (per-clone, not part of toolkit config)
 .claude/
+
+# Agent wiring written by `tb connect` — per-clone, and it names the toolbase
+# binary in YOUR environment, so it does not transfer between machines. Every
+# user runs `tb connect` themselves (see the README). What the agent is served
+# is shared through .toolbase/profiles/, which holds no paths.
+/.mcp.json
+/opencode.json
+/.codex/
