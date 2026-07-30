@@ -61,7 +61,31 @@ toolbase serves the toolkit's tools to any MCP-compatible client. The typical fl
 
 ### Serve to a coding agent (Claude Code / Codex / OpenCode)
 
-Each worked example ships a launcher that does the whole setup — sandbox, system prompt, bundles, wiring — then starts the agent in it:
+Begin with the `pdg` bundle:
+
+```bash
+mkdir my_session && cd my_session
+
+tb activate heptapod/pdg    # Particle Data Group lookups; `tb activate heptapod` for everything
+tb connect claude-code      # writes this project's .mcp.json (-g for user-level)
+claude                      # or codex / opencode
+```
+
+Confirm the server is connected with the `/mcp` slash command (`/mcps` in open code), `toolbase` should appear there with three tools. From toolbase's side, `tb connect --list` shows where it is currently wired and `tb serve --dry-run` prints what the active profile would serve.
+
+Then ask something the tools can answer:
+
+> What is the measured width of the $Z$ boson?
+
+> What is the branching ratio of $K^+ → 3\pi^0 e^+ ν_e$?
+
+`tb connect` writes the MCP server entry and your harness starts `tb serve` on launch. Substitute `codex` or `opencode` for `claude-code`; `tb connect --harnesses` lists the supported harnesses and `tb connect --list` reports where toolbase is currently wired. `tb list` shows what is installed and active.
+
+To supply a system prompt, copy one into the working directory as `CLAUDE.md` (Claude Code) or `AGENTS.md` (Codex, OpenCode); each example keeps its own under `examples/<name>/prompts/`. Those prompts refer to tools by their bare names, so a project using one should also set `default.bare: true` in `.toolbase/serve.yaml` — otherwise toolbase serves `heptapod__EnumerateDiagrams` and the names in the prompt will not resolve. The example launchers below handle this for you.
+
+### Worked examples
+
+Each example ships a launcher that runs the whole setup above (sandbox, system prompt, bundles, external-software paths, wiring) and then starts the agent in it:
 
 ```bash
 python examples/nda/launch.py --harness claude-code            # or codex, opencode
@@ -69,27 +93,11 @@ python examples/eda/launch.py --harness codex
 python examples/sim/s1_lq_rr/launch.py --harness claude-code   # brings the MC run cards
 ```
 
-To wire it up yourself instead:
-
-```bash
-tb activate heptapod                  # whole toolkit, or `heptapod/nda` for one bundle
-tb list                               # installed toolkits and what's active
-
-tb connect claude-code                # this project's .mcp.json (-g for user-level)
-tb connect codex                      # …or codex, opencode
-```
-
-`tb connect` writes the MCP server entry; your agent spawns `tb serve` on launch. Type `/mcp` in the agent to confirm. `tb connect --harnesses` lists what's supported, `tb connect --list` shows where toolbase is wired.
-
-Copy a system prompt into the working directory as `CLAUDE.md` (Claude Code) or `AGENTS.md` (Codex, OpenCode) — each example keeps its own in `examples/<name>/prompts/`. Those prompts name tools bare, so serve them un-namespaced too:
-
-```bash
-mkdir -p .toolbase && printf 'default:\n  bare: true\n' > .toolbase/serve.yaml
-```
+Each sandbox is its own toolbase project, so the bundles it activates don't touch your global config. See the per-example READMEs for what each covers.
 
 ### Orchestral
 
-All tools inherit from Orchestral's `BaseTool` class. All such instances are natively supported by `toolbase`. Wire it up or run a demo (after configuring an API key, see [Configuration](#configuration)):
+All tools inherit from Orchestral's `BaseTool` class and instances are natively supported by `toolbase`. Wire it up or run a demo (after configuring an API key, see [Configuration](#configuration)):
 
 ```bash
 tb connect orchestral                        # writes a runnable agent script
@@ -225,16 +233,16 @@ Individual tool suites can also be run directly with `pytest` (e.g. `pytest tool
 Once toolbase is connected (or an Orchestral demo is running), interact with the agent in natural language:
 
 **Symbolic calculations (EDA):**
-> Compute the tree-level decay width for H -> b bbar with a Yukawa vertex.
+> Compute the tree-level decay width for $H \to b \bar{b}$ with a Yukawa vertex.
 
 **Diagram enumeration and NDA estimation:**
-> Enumerate the tree-level diagrams for muon decay to e+ nu_e nu_mubar and estimate the branching ratio for each diagram class.
+> Enumerate the tree-level diagrams for muon decay to $e^+ \nu_e \bar{\nu}_\mu$ and estimate the branching ratio for each diagram class.
 
 **Particle data and literature:**
-> What is the measured width of the Z boson? Find recent papers on Higgs rare decays on INSPIRE.
+> What is the measured width of the $Z$ boson? Find recent papers on Higgs rare decays on INSPIRE.
 
 **Monte Carlo event generation:**
-> Generate 10,000 pp -> tt events at 13 TeV using MadGraph, shower with Pythia, and plot the invariant mass distribution.
+> Generate 10,000 $pp \to tt$ events at 13 TeV using MadGraph, shower with Pythia, and plot the invariant mass distribution.
 
 For detailed tool documentation, see [tools/README.md](tools/README.md).
 
