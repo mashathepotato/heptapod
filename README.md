@@ -80,7 +80,7 @@ The worked examples ship a launcher that does all of the above in one step — s
 ```bash
 python examples/nda/launch.py --harness claude-code        # or codex, opencode
 python examples/eda/launch.py --harness codex
-python examples/workflows/launch.py --harness claude-code  # copies the MC run cards in
+python examples/sim/s1_lq_rr/launch.py --harness claude-code   # copies the MC run cards in
 ```
 
 ### Orchestral
@@ -92,7 +92,7 @@ tb connect orchestral                        # writes a runnable agent script
 
 python examples/eda/eda_demo.py              # symbolic calculations (EDA)
 python examples/nda/nda_demo.py              # diagram enumeration + NDA estimation
-python examples/workflows/hep_bsm_demo.py    # Monte Carlo event generation pipeline
+python examples/sim/s1_lq_rr/s1_lq_rr_demo.py  # S1 leptoquark simulation pipeline
 ```
 
 Each demo creates a sandboxed workspace, loads the relevant tools and system prompt, and launches a web UI at `http://127.0.0.1:8000`. Configure the LLM provider by editing the demo script (Claude, GPT, Gemini, Groq, Ollama).

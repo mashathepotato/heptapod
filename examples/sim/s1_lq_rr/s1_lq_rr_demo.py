@@ -1,5 +1,5 @@
 """
-# hep_bsm_demo.py is a part of the HEPTAPOD package.
+# s1_lq_rr_demo.py is a part of the HEPTAPOD package.
 # Copyright (C) 2025 HEPTAPOD authors (see AUTHORS for details).
 # HEPTAPOD is licensed under the GNU GPL v3 or later, see LICENSE for details.
 # Please respect the MCnet Guidelines, see GUIDELINES for details.
@@ -10,11 +10,11 @@ import sys
 from pathlib import Path
 
 # Add repository root to path for local imports (prompts, tools, etc.)
-REPO_ROOT = Path(__file__).resolve().parent.parent.parent
+REPO_ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(REPO_ROOT))
 
 # Add shared utilities directory to path
-SHARED_DIR = Path(__file__).resolve().parent.parent / 'shared'
+SHARED_DIR = REPO_ROOT / 'examples' / 'shared'
 sys.path.insert(0, str(SHARED_DIR))
 
 # Load .env so tools that read API keys at construction time (e.g.
@@ -58,7 +58,7 @@ import orchestral.ui.app.server as app_server
 from sandbox_utils import create_new_sandbox
 
 # Configure workspace - either use existing or create new sandbox.
-demo_files_dir = REPO_ROOT / 'examples' / 'hep_bsm_sandbox'
+demo_files_dir = Path(__file__).resolve().parent
 
 CREATE_NEW_SANDBOX = True  # Set to True to create a new sandbox, False to use existing
 MODE = "explorer"          # Options: "todo", "plan", "explorer"

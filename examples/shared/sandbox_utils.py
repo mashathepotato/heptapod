@@ -19,7 +19,7 @@ def create_new_sandbox(demo_files_dir: Path, mode: str = "todo") -> tuple[str, s
     Copies appropriate template files based on the mode.
 
     Args:
-        demo_files_dir: Path to hep_bsm_demo_files directory
+        demo_files_dir: directory the numbered sandbox is created under
         mode: Operating mode - "todo", "plan", or "explorer"
               - "todo": Copies template files AND todos.md, uses TODO prompt
               - "plan": Copies template files only (agent makes own plan), uses PLAN prompt
