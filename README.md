@@ -147,6 +147,26 @@ Additional domain bundles (e.g. `hepmc`/`delphes` detector simulation, `pythia`-
 
 ---
 
+## Skills
+
+Some bundles ship a **skill** — a written guide to using their tools well, covering the failure modes that are predictable but not obvious. They live in [`skills/`](skills/):
+
+| Skill | Covers | Bundle |
+|-------|--------|--------|
+| `feynrules` | Declaring mass and width once, tagging BSM couplings with an interaction order, checking the UFO before MG5 sees it | `feynrules` |
+| `mg5` | Shallow comma decay chains and the `NP=N` alternative, `compute_widths` ordering, reading past MG5's auto-conversion error mask | `mg5` |
+
+Each skill names a bundle, and `tb connect` surfaces it only when that bundle's tools are actually being served — so the `mg5` guide stays hidden until `mg5_path` is set, since without it the tools it describes aren't there either. `tb deactivate heptapod__mg5` turns one off; `tb activate` turns it back on.
+
+How a skill reaches the agent depends on the harness:
+
+- **Claude Code, Antigravity** load it automatically when the conversation looks relevant, and also expose it as a `/heptapod__mg5` slash command.
+- **Codex, OpenCode** have no model-facing skill concept, so it arrives as a `/heptapod__mg5` slash command you invoke yourself.
+
+Skills are surfaced by `tb connect` alongside the MCP server, so nothing extra is needed — connect a harness and its guides come with it. Requires toolbase ≥ 0.11.
+
+---
+
 ## Configuration
 
 ### Toolkit configuration (external tool paths)
