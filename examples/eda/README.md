@@ -52,7 +52,7 @@ it by hand.
 mkdir my_eda_session && cd my_eda_session
 
 # Claude Code reads CLAUDE.md
-cp /path/to/heptapod/prompts/examples/eda/system/eda_system_prompt.md CLAUDE.md
+cp ../prompts/system_prompt.md CLAUDE.md
 
 tb activate heptapod/eda      # one item per invocation
 tb activate heptapod/nda
@@ -79,7 +79,7 @@ the tools are available in every session rather than just this directory.
 mkdir my_eda_session && cd my_eda_session
 
 # Codex reads AGENTS.md
-cp /path/to/heptapod/prompts/examples/eda/system/eda_system_prompt.md AGENTS.md
+cp ../prompts/system_prompt.md AGENTS.md
 
 tb activate heptapod/eda
 tb activate heptapod/nda
@@ -132,7 +132,7 @@ reference values:
 
 See `task_prompt.md` for the prompt and `transcripts/` for the full
 conversation and agent outputs. The system prompt used is at
-`prompts/examples/eda/system/eda_system_prompt.md`.
+`examples/eda/prompts/system_prompt.md`.
 
 **Task:** Systematically compute all tree-level 1->2 decay widths across
 spins {0, 1/2, 1}, all vertex types, both coupling bases (vector-axial

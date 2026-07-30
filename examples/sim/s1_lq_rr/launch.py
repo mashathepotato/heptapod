@@ -26,7 +26,7 @@ from harness_launch import main
 main(
     example='s1_lq_rr',
     bundles=['feynrules', 'mg5', 'event_gen', 'analysis'],
-    prompt_path={m: REPO_ROOT / f'prompts/examples/hep_bsm/system/hep_bsm_evt_gen_{m}_prompt.md'
+    prompt_path={m: Path(__file__).resolve().parent / 'prompts' / f'{m}.md'
                  for m in ('explorer', 'plan', 'todo')},
     sandbox_dir=Path(__file__).resolve().parent,
     mode='explorer',

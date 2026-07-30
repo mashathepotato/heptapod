@@ -26,7 +26,7 @@ from harness_launch import main
 main(
     example='nda',
     bundles=['nda', 'pdg', 'mg5'],
-    prompt_path=REPO_ROOT / 'prompts/examples/nda/system/nda_system_prompt.md',
+    prompt_path=Path(__file__).resolve().parent / 'prompts' / 'system_prompt.md',
     sandbox_dir=Path(__file__).resolve().parent,
     mode='explorer',
     config_keys=['mg5_path'],

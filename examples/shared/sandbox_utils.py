@@ -13,7 +13,7 @@ import re
 from pathlib import Path
 
 
-def create_new_sandbox(demo_files_dir: Path, mode: str = "todo") -> tuple[str, str]:
+def create_new_sandbox(demo_files_dir: Path, mode: str = "todo") -> str:
     """
     Create a new sandbox directory with the next available number.
     Copies appropriate template files based on the mode.
@@ -21,33 +21,19 @@ def create_new_sandbox(demo_files_dir: Path, mode: str = "todo") -> tuple[str, s
     Args:
         demo_files_dir: directory the numbered sandbox is created under
         mode: Operating mode - "todo", "plan", or "explorer"
-              - "todo": Copies template files AND todos.md, uses TODO prompt
-              - "plan": Copies template files only (agent makes own plan), uses PLAN prompt
-              - "explorer": Copies template files only, uses EXPLORER prompt (interactive, waits for user)
+              - "todo": template files AND todos.md
+              - "plan": template files only (agent makes its own plan)
+              - "explorer": template files only
 
     Returns:
-        tuple: (relative_path_to_sandbox, system_prompt)
+        Absolute path to the new sandbox. The system prompt is the caller's
+        business: each example keeps its own under <example>/prompts/.
     """
-    # Import prompts here to avoid circular imports
-    from prompts import HEP_BSM_EVT_GEN_TODO_PROMPT, HEP_BSM_EVT_GEN_PLAN_PROMPT, HEP_BSM_EVT_GEN_EXPLORER_PROMPT
-
     # Mode configuration
     MODE_CONFIG = {
-        "todo": {
-            "copy_todos": True,
-            "prompt": HEP_BSM_EVT_GEN_TODO_PROMPT,
-            "description": "Todo list mode"
-        },
-        "plan": {
-            "copy_todos": False,
-            "prompt": HEP_BSM_EVT_GEN_PLAN_PROMPT,
-            "description": "Plan mode"
-        },
-        "explorer": {
-            "copy_todos": False,
-            "prompt": HEP_BSM_EVT_GEN_EXPLORER_PROMPT,
-            "description": "Interactive explorer mode"
-        }
+        "todo":     {"copy_todos": True,  "description": "Todo list mode"},
+        "plan":     {"copy_todos": False, "description": "Plan mode"},
+        "explorer": {"copy_todos": False, "description": "Interactive explorer mode"},
     }
 
     # Validate mode
@@ -107,6 +93,4 @@ def create_new_sandbox(demo_files_dir: Path, mode: str = "todo") -> tuple[str, s
             print(f"Warning: no todos.md at {todos_src}; "
                   f"'{mode}' mode expects one there")
 
-    # Return absolute path to the sandbox and the system prompt
-    sandbox_path = str(new_sandbox_path)
-    return sandbox_path, config["prompt"]
+    return str(new_sandbox_path)

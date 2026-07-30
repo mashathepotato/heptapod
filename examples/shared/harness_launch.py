@@ -76,7 +76,7 @@ def main(*, example, bundles, prompt_path, sandbox_dir, mode='explorer',
     tb = _toolbase()
 
     from sandbox_utils import create_new_sandbox
-    sandbox = Path(create_new_sandbox(Path(sandbox_dir), mode=args.mode)[0]).resolve()
+    sandbox = Path(create_new_sandbox(Path(sandbox_dir), mode=args.mode)).resolve()
 
     prompt = prompt_path[args.mode] if isinstance(prompt_path, dict) else prompt_path
     (sandbox / harness['instructions']).write_text(Path(prompt).read_text())

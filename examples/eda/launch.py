@@ -26,7 +26,7 @@ from harness_launch import main
 main(
     example='eda',
     bundles=['eda', 'nda', 'pdg'],
-    prompt_path=REPO_ROOT / 'prompts/examples/eda/system/eda_system_prompt.md',
+    prompt_path=Path(__file__).resolve().parent / 'prompts' / 'system_prompt.md',
     sandbox_dir=Path(__file__).resolve().parent,
     mode='explorer',
     config_keys=['wolframscript_path'],

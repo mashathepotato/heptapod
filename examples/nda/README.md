@@ -49,7 +49,7 @@ it by hand.
 mkdir my_nda_session && cd my_nda_session
 
 # Claude Code reads CLAUDE.md
-cp /path/to/heptapod/prompts/examples/nda/system/nda_system_prompt.md CLAUDE.md
+cp ../prompts/system_prompt.md CLAUDE.md
 
 tb activate heptapod/nda      # one item per invocation
 tb activate heptapod/pdg
@@ -76,7 +76,7 @@ the tools are available in every session rather than just this directory.
 mkdir my_nda_session && cd my_nda_session
 
 # Codex reads AGENTS.md
-cp /path/to/heptapod/prompts/examples/nda/system/nda_system_prompt.md AGENTS.md
+cp ../prompts/system_prompt.md AGENTS.md
 
 tb activate heptapod/nda
 tb activate heptapod/pdg
@@ -126,7 +126,7 @@ values, and optional MadGraph cross-checks:
 
 See `task_prompt.md` for the prompt and `transcripts/` for the full
 conversation and agent outputs. The system prompt used is at
-`prompts/examples/nda/system/nda_system_prompt.md`.
+`examples/nda/prompts/system_prompt.md`.
 
 **Task:** Determine the maximum number of $e^+e^-$ pairs in muon decay
 observable at current/planned experiments, using diagram enumeration + NDA

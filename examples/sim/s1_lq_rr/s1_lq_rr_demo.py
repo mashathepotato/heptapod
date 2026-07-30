@@ -38,7 +38,6 @@ from orchestral.llm import GPT, Claude, Groq
 from llm import get_ollama, get_reasoning_ollama, get_vllm, get_litellm
 
 # Prompt imports.
-from prompts import HEP_BSM_EVT_GEN_EXPLORER_PROMPT
 
 # HEPTAPOD tools are served by toolbase from the toolkit's own env.
 from toolbase.connect.orchestral import toolbase_tools
@@ -64,11 +63,12 @@ CREATE_NEW_SANDBOX = True  # Set to True to create a new sandbox, False to use e
 MODE = "explorer"          # Options: "todo", "plan", "explorer"
 
 if CREATE_NEW_SANDBOX:
-    base_directory, system_prompt = create_new_sandbox(demo_files_dir, mode=MODE)
+    base_directory = create_new_sandbox(demo_files_dir, mode=MODE)
+    system_prompt = (Path(__file__).resolve().parent / 'prompts' / f'{MODE}.md').read_text()
 else:
     # When using existing sandbox, manually specify the prompt
     base_directory = str(demo_files_dir / 'sandbox000')
-    system_prompt = HEP_BSM_EVT_GEN_EXPLORER_PROMPT  # Or use TODO/PLAN prompts
+    system_prompt = (Path(__file__).resolve().parent / 'prompts' / f'{MODE}.md').read_text()
 
 # Define tools. HEPTAPOD's are served by toolbase further down.
 tools = [

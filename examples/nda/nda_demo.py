@@ -56,11 +56,11 @@ demo_files_dir = Path(__file__).resolve().parent
 CREATE_NEW_SANDBOX = True  # Set to True to create a new sandbox, False to use existing
 
 # Load system prompt.
-SYSTEM_PROMPT_PATH = REPO_ROOT / 'prompts' / 'examples' / 'nda' / 'system' / 'nda_system_prompt.md'
+SYSTEM_PROMPT_PATH = Path(__file__).resolve().parent / 'prompts' / 'system_prompt.md'
 system_prompt = SYSTEM_PROMPT_PATH.read_text()
 
 if CREATE_NEW_SANDBOX:
-    base_directory, _ = create_new_sandbox(demo_files_dir, mode="explorer")
+    base_directory = create_new_sandbox(demo_files_dir, mode="explorer")
     # Override the default system prompt with the NDA-specific one
 else:
     base_directory = str(demo_files_dir / 'sandbox000')
