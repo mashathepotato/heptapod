@@ -230,7 +230,7 @@ def check_prerequisites():
 
     # Check essential directories
     print("\n>> Checking project structure...")
-    essential_dirs = ['prompts', 'tools', 'examples', 'llm']
+    essential_dirs = ['tools', 'examples', 'llm']
     for dir_name in essential_dirs:
         dir_path = REPO_ROOT / dir_name
         if dir_path.exists():
