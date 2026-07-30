@@ -75,6 +75,14 @@ tb connect codex                      # OpenAI Codex
 
 To load a system prompt, copy one into your working directory as `CLAUDE.md` (Claude Code) or `AGENTS.md` (Codex). Example system prompts for the EDA and NDA bundles are in `prompts/examples/`.
 
+The worked examples ship a launcher that does all of the above in one step — sandbox, system prompt, bundles, wiring — then starts the agent in it:
+
+```bash
+python examples/nda/launch.py --harness claude-code        # or codex, opencode
+python examples/eda/launch.py --harness codex
+python examples/workflows/launch.py --harness claude-code  # copies the MC run cards in
+```
+
 ### Orchestral
 
 All tools inherit from Orchestral's `BaseTool` class. All such instances are natively supported by `toolbase`. Wire it up or run a demo (after configuring an API key, see [Configuration](#configuration)):

@@ -29,6 +29,20 @@ bundle's dependencies into it — nothing lands in your own environment.
 
 ### 2. Serve the tools to your agent
 
+The quickest path is the launcher, which does everything the manual steps below
+do — creates a numbered sandbox, writes the system prompt as the file your
+harness reads, activates the bundles, and wires the MCP server:
+
+```bash
+python examples/nda/launch.py --harness claude-code    # or codex, opencode
+```
+
+It replaces itself with the agent, so you land in a session already scoped to
+the sandbox. Pass `--no-launch` to set the sandbox up and stop.
+
+The rest of this section is what the launcher automates, if you would rather do
+it by hand.
+
 #### Claude Code
 
 ```bash
