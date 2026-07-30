@@ -96,15 +96,16 @@ def create_new_sandbox(demo_files_dir: Path, mode: str = "todo") -> tuple[str, s
                 shutil.copy2(src, dst)
                 print(f"Copied template file: {item.name}")
 
-    # Copy todos.md only in "todo" mode
+    # Copy todos.md only in "todo" mode. It lives beside the example, next to
+    # its template/ dir, so each example owns its own task list.
     if config["copy_todos"]:
-        todos_src = Path(__file__).resolve().parent.parent / 'prompts' / 'demos' / 'S1_LQ' / 'todos.md'
+        todos_src = demo_files_dir / 'todos' / 'todos.md'
         if todos_src.exists():
-            todos_dst = new_sandbox_path / 'todos.md'
-            shutil.copy2(todos_src, todos_dst)
-            print(f"Copied todos.md from prompts/demos/S1_LQ to {new_sandbox_name}")
+            shutil.copy2(todos_src, new_sandbox_path / 'todos.md')
+            print(f"Copied todos.md to {new_sandbox_name}")
         else:
-            print(f"Warning: todos.md not found at {todos_src}")
+            print(f"Warning: no todos.md at {todos_src}; "
+                  f"'{mode}' mode expects one there")
 
     # Return absolute path to the sandbox and the system prompt
     sandbox_path = str(new_sandbox_path)

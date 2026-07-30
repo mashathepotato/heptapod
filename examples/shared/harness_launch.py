@@ -54,6 +54,8 @@ def main(*, example, bundles, prompt_path, sandbox_dir, mode='explorer',
         example: short name, used in messages only.
         bundles: bundle names to activate, e.g. ['nda', 'pdg'].
         prompt_path: system prompt copied in as the harness's instruction file.
+            Either one path, or a dict keyed by mode when the example ships a
+            prompt per mode.
         sandbox_dir: directory the numbered sandbox is created under.
         mode: sandbox mode passed to create_new_sandbox.
         config_keys: heptapod config fields this example needs (e.g.
@@ -76,8 +78,9 @@ def main(*, example, bundles, prompt_path, sandbox_dir, mode='explorer',
     from sandbox_utils import create_new_sandbox
     sandbox = Path(create_new_sandbox(Path(sandbox_dir), mode=args.mode)[0]).resolve()
 
-    (sandbox / harness['instructions']).write_text(Path(prompt_path).read_text())
-    print(f"  wrote {harness['instructions']} from {Path(prompt_path).name}")
+    prompt = prompt_path[args.mode] if isinstance(prompt_path, dict) else prompt_path
+    (sandbox / harness['instructions']).write_text(Path(prompt).read_text())
+    print(f"  wrote {harness['instructions']} from {Path(prompt).name}")
 
     for b in bundles:
         _run([tb, 'activate', f'heptapod/{b}'], cwd=sandbox)
