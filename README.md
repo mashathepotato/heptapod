@@ -81,7 +81,7 @@ Then ask something the tools can answer:
 
 `tb connect` writes the MCP server entry and your harness starts `tb serve` on launch. Substitute `codex` or `opencode` for `claude-code`; `tb connect --harnesses` lists the supported harnesses and `tb connect --list` reports where toolbase is currently wired. `tb list` shows what is installed and active.
 
-To supply a system prompt, copy one into the working directory as `CLAUDE.md` (Claude Code) or `AGENTS.md` (Codex, OpenCode); each example keeps its own under `examples/<name>/prompts/`. Those prompts refer to tools by their bare names, so a project using one should also set `default.bare: true` in `.toolbase/serve.yaml` — otherwise toolbase serves `heptapod__EnumerateDiagrams` and the names in the prompt will not resolve. The example launchers below handle this for you.
+To supply a system prompt, copy one into the working directory as `CLAUDE.md` (Claude Code) or `AGENTS.md` (Codex, OpenCode); each example keeps its own under `examples/<name>/prompts/`.
 
 ### Worked examples
 
