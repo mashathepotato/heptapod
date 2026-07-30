@@ -88,7 +88,7 @@ def main(*, example, bundles, prompt_path, sandbox_dir, mode='explorer',
 
     # The system prompts name tools bare (EnumerateDiagrams), but toolbase
     # namespaces them as heptapod__* by default.
-    (sandbox / '.toolbase').mkdir(exist_ok=True)
+    # .toolbase/ already exists: tb activate created it above.
     (sandbox / '.toolbase' / 'serve.yaml').write_text('default:\n  bare: true\n')
     print('  wrote .toolbase/serve.yaml (bare tool names)')
 

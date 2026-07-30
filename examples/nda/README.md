@@ -56,7 +56,7 @@ tb activate heptapod/pdg
 tb activate heptapod/mg5
 
 # Serve tool names un-namespaced, as the system prompt refers to them
-mkdir -p .toolbase && printf 'default:\n  bare: true\n' > .toolbase/serve.yaml
+printf 'default:\n  bare: true\n' > .toolbase/serve.yaml
 
 tb connect claude-code                               # this directory's .mcp.json
 claude                                               # type /mcp to confirm
@@ -81,7 +81,7 @@ cp ../prompts/system_prompt.md AGENTS.md
 tb activate heptapod/nda
 tb activate heptapod/pdg
 tb activate heptapod/mg5
-mkdir -p .toolbase && printf 'default:\n  bare: true\n' > .toolbase/serve.yaml
+printf 'default:\n  bare: true\n' > .toolbase/serve.yaml
 
 tb connect codex
 codex                                                # type /mcp to confirm
