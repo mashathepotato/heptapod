@@ -85,6 +85,11 @@ To supply a system prompt, copy one into the working directory as `CLAUDE.md` (C
 
 ### Worked examples
 
+New to writing tools? Start with [examples/primer/](examples/primer/) — a
+tutorial notebook that builds two tools from scratch (a database query and a
+wrapper around external analysis code) and packages them as a toolbase toolkit.
+No API key needed for most of it.
+
 Each example ships a launcher that runs the whole setup above (sandbox, system prompt, bundles, external-software paths, wiring) and then starts the agent in it:
 
 ```bash
