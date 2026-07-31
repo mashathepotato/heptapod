@@ -20,6 +20,12 @@ examples/advanced/**/demo_sandbox/
 examples/**/sandbox[0-9][0-9][0-9]/
 examples/**/sandbox_[0-9][0-9][0-9]/
 
+# Everything building_your_first_tool.ipynb generates as it runs: the toy
+# event database and external package, and the toolkit the notebook builds
+# in Section 5. All of it is reproduced by re-running the notebook.
+examples/primer/sandbox/
+examples/primer/cms_dimuon/
+
 # The agent script `tb connect orchestral` writes, and the scratch dir it
 # works in. Regenerate with `tb connect orchestral` rather than committing;
 # the checked-in demos under examples/ are the reference wiring.
