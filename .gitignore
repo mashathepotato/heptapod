@@ -1,6 +1,7 @@
 # Python cache files
 *.pyc
 __pycache__/
+/.venv/
 
 # Local copies of repo-root templates — copy from the .example versions
 # and fill in your own values. Templates stay tracked, locals do not.
